@@ -4,7 +4,7 @@
 
 ## Developers
 1. Szymon Stasiak
-2. b
+2. Izzatulla Toshpulatov
 3. c
 4. d
 5. e
