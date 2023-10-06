@@ -22,7 +22,7 @@ clone:
         - . ./build-status.gitlab-ci.sh
         - $GIT_CLONE_AUTH_FE ./git-clone
         - cd git-clone
-        - git checkout $SOURCE_BRANCH_NAME
+        - git checkout $CI_COMMIT_REF_NAME
         - status INPROGRESS
     artifacts:
         paths:
