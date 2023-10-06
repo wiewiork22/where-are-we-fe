@@ -1,7 +1,7 @@
 variables:
     # Change
-    TEAM_NAME: "lukasm"
-    HOST: "lukasm.devbstaging.com"
+    TEAM_NAME: "dashboarders"
+    HOST: "where-are-we.devbstaging.com"
     APP_TAG: "latest"
     # DO NOT CHANGE
     IMG_APP: harbor.devbridge.net/sourcery-academy/$TEAM_NAME/frontend
