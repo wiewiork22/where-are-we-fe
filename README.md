@@ -5,8 +5,8 @@
 ## Developers
 1. Szymon Stasiak
 2. Izzatulla Toshpulatov
-3. Karol Wiewiór
-4. d
+3. Przemysław Kubiak
+4. Karol Wiewiór
 5. e
 6. f
 
