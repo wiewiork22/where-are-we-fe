@@ -9,6 +9,14 @@ PR_TITLE=$(jq -r '.pullrequest.title' $TRIGGER_PAYLOAD)
 TARGET_BRANCH_NAME=$(jq -r '.pullrequest.destination.branch.name' $TRIGGER_PAYLOAD)
 
 SOURCE_BRANCH_NAME=$(jq -r '.pullrequest.source.branch.name' $TRIGGER_PAYLOAD)
+
+if [ "$SOURCE_BRANCH_NAME" == "null" ]; then
+
+    SOURCE_BRANCH_NAME=$(jq -r '.push.changes[0].old.name' $TRIGGER_PAYLOAD)
+fi
+if [ "$SOURCE_BRANCH_NAME" == "null" ]; then
+    SOURCE_BRANCH_NAME=$CI_COMMIT_REF_NAME
+fi
 SOURCE_COMMIT_SHA=$(jq -r '.pullrequest.source.commit.hash' $TRIGGER_PAYLOAD)
 
 function status() {
