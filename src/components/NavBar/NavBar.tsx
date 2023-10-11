@@ -10,8 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
+import { ROUTES } from '../../routes/routes.ts';
 
 type NavbarProps = {
   open: boolean;
@@ -19,9 +20,9 @@ type NavbarProps = {
 };
 
 const pages = [
-  { title: 'My Profile', link: 'my-profile' },
-  { title: 'Log in', link: 'log-in' },
-  { title: 'Log out', link: 'Log-out' },
+  { title: 'My Profile', link: ROUTES.MY_PROFILE },
+  { title: 'Log in', link: ROUTES.LOG_IN },
+  { title: 'Log out', link: ROUTES.LOG_OUT },
 ];
 
 interface AppBarProps extends MuiAppBarProps {
@@ -125,11 +126,11 @@ export default function NavBar(props: NavbarProps) {
               onClose={handleCloseUserMenu}
             >
               {pages.map((page) => (
-                <Link style={{ textDecoration: 'none', color: '#555' }} to={`/${page.link}`}>
+                <NavLink style={{ textDecoration: 'none', color: '#555' }} to={`${page.link}`}>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
-                </Link>
+                </NavLink>
               ))}
             </Menu>
           </Box>

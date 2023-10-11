@@ -3,7 +3,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,6 +15,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import MapIcon from '@mui/icons-material/Map';
 import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
+import { ROUTES } from '../../routes/routes.ts';
 
 type SidebarProps = {
   open: boolean;
@@ -22,10 +23,10 @@ type SidebarProps = {
 };
 
 const pages = [
-  { title: 'Home', link: '', icon: <HomeIcon /> },
-  { title: 'My Profile', link: 'my-profile', icon: <AccountCircleIcon /> },
-  { title: 'Meetings', link: 'meetings', icon: <GroupsIcon /> },
-  { title: 'Nearby', link: 'nearby', icon: <MapIcon /> },
+  { title: 'Home', link: ROUTES.HOME, icon: <HomeIcon /> },
+  { title: 'My Profile', link: ROUTES.MY_PROFILE, icon: <AccountCircleIcon /> },
+  { title: 'Meetings', link: ROUTES.MEETINGS, icon: <GroupsIcon /> },
+  { title: 'Nearby', link: ROUTES.NEARBY, icon: <MapIcon /> },
 ];
 
 const drawerWidth = 200;
@@ -92,7 +93,7 @@ export default function SideBar(props: SidebarProps) {
         <Divider />
         <List sx={{ background: '#EEEEF1' }}>
           {pages.map((page) => (
-            <Link to={`/${page.link}`} style={{ textDecoration: 'none', color: '#555' }}>
+            <NavLink to={`${page.link}`} style={{ textDecoration: 'none', color: '#555' }}>
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                   sx={{
@@ -113,7 +114,7 @@ export default function SideBar(props: SidebarProps) {
                   <ListItemText primary={page.title} sx={{ opacity: props.open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
-            </Link>
+            </NavLink>
           ))}
         </List>
         <Divider />

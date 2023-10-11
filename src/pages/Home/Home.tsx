@@ -1,10 +1,9 @@
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import BasicTable from '../../components/BasicTable/BasicTable.tsx';
 
 function Home() {
   return (
-    <Box sx={{ flexGrow: 1, p: 7 }}>
+    <>
       <Typography variant="h2" color="#2A514B" style={{ paddingBottom: '40px' }}>
         This is the home page
       </Typography>
@@ -25,13 +24,11 @@ function Home() {
         alt="map"
         style={{
           maxWidth: '100%',
-          width: 'auto',
-          height: 'auto',
           marginBottom: '50px',
         }}
       />
       <BasicTable />
-    </Box>
+    </>
   );
 }
 
