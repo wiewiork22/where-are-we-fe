@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import BasicTable from '../../components/BasicTable/BasicTable.tsx';
+import EmployeeTable from './components/EmployeeTable.tsx';
 
 function Home() {
   return (
@@ -27,7 +27,7 @@ function Home() {
           marginBottom: '50px',
         }}
       />
-      <BasicTable />
+      <EmployeeTable />
     </>
   );
 }

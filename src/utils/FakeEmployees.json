@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "fullName": "John Doe",
+    "position": "Software Engineer",
+    "squad": "Development Team",
+    "department": "Engineering Department",
+    "address": "123 Main St"
+  },
+  {
+    "id": "2",
+    "fullName": "Jane Smith",
+    "position": "Product Manager",
+    "squad": null,
+    "department": "Product Management Department",
+    "address": "456 Elm St"
+  },
+  {
+    "id": "3",
+    "fullName": "Alice Johnson",
+    "position": "HR Specialist",
+    "squad": "HR Team",
+    "department": "Human Resources Department",
+    "address": "789 Oak St"
+  },
+  {
+    "id": "4",
+    "fullName": "Bob Williams",
+    "position": "Sales Representative",
+    "squad": "Sales Team",
+    "department": "Sales Department",
+    "address": "101 Pine St"
+  },
+  {
+    "id": "5",
+    "fullName": "Eva Davis",
+    "position": "Marketing Coordinator",
+    "squad": "Marketing Team",
+    "department": "Marketing Department",
+    "address": "202 Cedar St"
+  },
+  {
+    "id": "6",
+    "fullName": "Michael Brown",
+    "position": "QA Engineer",
+    "squad": "Quality Assurance Team",
+    "department": "Engineering Department",
+    "address": "303 Birch St"
+  },
+  {
+    "id": "7",
+    "fullName": "Olivia Lee",
+    "position": "Financial Analyst",
+    "squad": "Finance Team",
+    "department": "Finance Department",
+    "address": "404 Maple St"
+  },
+  {
+    "id": "8",
+    "fullName": "Daniel Wilson",
+    "position": "Customer Support Specialist",
+    "squad": "Support Team",
+    "department": "Customer Support Department",
+    "address": "505 Spruce St"
+  },
+  {
+    "id": "9",
+    "fullName": "Sophia Turner",
+    "position": "Designer",
+    "squad": "Design Team",
+    "department": "Design Department",
+    "address": "606 Willow St"
+  },
+  {
+    "id": "10",
+    "fullName": "Liam Harris",
+    "position": "Data Scientist",
+    "squad": "Data Science Team",
+    "department": "Data Science Department",
+    "address": "707 Redwood St"
+  }
+]
