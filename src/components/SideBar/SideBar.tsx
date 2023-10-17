@@ -92,8 +92,8 @@ export default function SideBar(props: SidebarProps) {
         </DrawerHeader>
         <Divider />
         <List sx={{ background: '#EEEEF1' }}>
-          {pages.map((page) => (
-            <NavLink to={`${page.link}`} style={{ textDecoration: 'none', color: '#555' }}>
+          {pages.map((page,index) => (
+            <NavLink key={index} to={`${page.link}`} style={{ textDecoration: 'none', color: '#555' }}>
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                   sx={{

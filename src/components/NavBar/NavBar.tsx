@@ -105,7 +105,7 @@ export default function NavBar(props: NavbarProps) {
           <Box sx={{ flexGrow: 0, marginLeft: 'auto' }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Simon" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Simon" />
               </IconButton>
             </Tooltip>
 
@@ -125,8 +125,8 @@ export default function NavBar(props: NavbarProps) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {pages.map((page) => (
-                <NavLink style={{ textDecoration: 'none', color: '#555' }} to={`${page.link}`}>
+              {pages.map((page, index) => (
+                <NavLink key={index} style={{ textDecoration: 'none', color: '#555' }} to={`${page.link}`}>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
