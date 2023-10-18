@@ -4,5 +4,5 @@ export enum ROUTES {
   LOG_IN = '/log-in',
   LOG_OUT = '/log-out',
   MEETINGS = '/meetings',
-  NEARBY = '/nearby'
+  NEARBY = '/nearby',
 }

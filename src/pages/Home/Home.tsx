@@ -1,7 +1,28 @@
-import Typography from '@mui/material/Typography';
+import { Typography, Box, Button } from '@mui/material';
 import EmployeeTable from './components/EmployeeTable.tsx';
 
+import ModalAddEmployee from '../../components/AddEmployee/ModalAddEmployee.tsx';
+import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
+
+const ButtonStyle = {
+  borderRadius: '50px',
+  backgroundColor: '#000048',
+  float: 'right',
+  p: 1,
+  pr: 3,
+  pl: 3,
+  '&:hover': {
+    backgroundColor: '#1E005E',
+  },
+};
 function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpenClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <Typography variant="h2" color="#2A514B" style={{ paddingBottom: '40px' }}>
@@ -27,7 +48,13 @@ function Home() {
           marginBottom: '50px',
         }}
       />
-      <EmployeeTable />
+      <Box>
+        <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
+          Add employee
+        </Button>
+        <ModalAddEmployee modalIsOpen={isModalOpen} setModalIsOpen={setIsModalOpen} />
+        <EmployeeTable />
+      </Box>
     </>
   );
 }

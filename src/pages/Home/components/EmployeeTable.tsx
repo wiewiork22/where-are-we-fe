@@ -5,10 +5,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import api from '../../../utils/api.ts';
 import Employee from '../../../models/Employee.ts';
 import { styled } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import { getEmployees } from '../../../utils/api.ts';
 
 const sharedStyles = {
   field: {
@@ -31,7 +31,7 @@ const StyledField = styled('span')(sharedStyles.field);
 
 function EmployeeTable() {
   //TODO handle error
-  const { isLoading, data } = useQuery(['employees'], () => api.getEmployees());
+  const { isLoading, data } = useQuery(['employees'], () => getEmployees());
 
   if (isLoading) {
     return <div>Loading...</div>;

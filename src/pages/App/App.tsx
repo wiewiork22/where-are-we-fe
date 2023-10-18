@@ -20,21 +20,17 @@ function App() {
       <Box sx={{ display: 'flex', backgroundColor: '#cfd1e1', minHeight: '100vh', minWidth: '100vw' }}>
         <BrowserRouter>
           <NavBar open={open} setOpen={setOpen} />
-          <Box component={'main'}
-               sx={{ display: 'flex', marginTop: '80px', flexGrow: 1 }}>
+          <Box component={'main'} sx={{ display: 'flex', marginTop: '80px', flexGrow: 1 }}>
             <SideBar open={open} setOpen={setOpen} />
-            <Box sx={{ flexGrow: 1, p: 7 }}>
+            <Box sx={{ flexGrow: 1, p: 7, pt: 3 }}>
               <Routes>
-
                 <Route path={ROUTES.HOME} element={<Home />} />
                 <Route path={ROUTES.MY_PROFILE} element={<MyProfile />} />
                 <Route path={ROUTES.LOG_IN} element={<LoginPage />} />
-                <Route path='/*' element={<PageNotFound />} />
-
+                <Route path="/*" element={<PageNotFound />} />
               </Routes>
             </Box>
           </Box>
-
         </BrowserRouter>
       </Box>
     </QueryClientProvider>
