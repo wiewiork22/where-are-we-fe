@@ -1,5 +1,7 @@
 import { Typography, Box, Button } from '@mui/material';
 import EmployeeTable from './components/EmployeeTable.tsx';
+import EmployeeMap from './components/EmployeeMap/EmployeeMap.tsx';
+import { Card } from '@mui/material';
 
 import ModalAddEmployee from '../../components/AddEmployee/ModalAddEmployee.tsx';
 import AddIcon from '@mui/icons-material/Add';
@@ -40,14 +42,10 @@ function Home() {
         ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
       </Typography>
 
-      <img
-        src="src/images/map.png"
-        alt="map"
-        style={{
-          maxWidth: '100%',
-          marginBottom: '50px',
-        }}
-      />
+      <Card variant="outlined" sx={{ marginBottom: '50px' }}>
+        <EmployeeMap />
+      </Card>
+
       <Box>
         <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
           Add employee
