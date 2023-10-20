@@ -17,7 +17,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Box sx={{ display: 'flex', backgroundColor: '#cfd1e1', minHeight: '100vh', minWidth: '100vw' }}>
+      <Box sx={{ display: 'flex', backgroundColor: '#f8f8f8', minHeight: '100vh', minWidth: '100vw' }}>
         <BrowserRouter>
           <NavBar open={open} setOpen={setOpen} />
           <Box component={'main'} sx={{ display: 'flex', marginTop: '80px', flexGrow: 1 }}>

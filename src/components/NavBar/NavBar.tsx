@@ -13,6 +13,7 @@ import Menu from '@mui/material/Menu';
 import { NavLink } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import { ROUTES } from '../../routes/routes.ts';
+import { AnimatedText } from '../AnimatedText/AnimatedText.tsx';
 
 type NavbarProps = {
   open: boolean;
@@ -66,14 +67,14 @@ export default function NavBar(props: NavbarProps) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ background: 'linear-gradient(to bottom, #cfd1e1, #dbdae1)' }} open={props.open}>
+      <AppBar position="fixed" sx={{ background: '#161615' }} open={props.open}>
         <Toolbar>
           <IconButton
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              '& svg': { color: '#555' },
+              '& svg': { color: 'white' },
               marginRight: 5,
               ...(props.open && { display: 'none' }),
             }}
@@ -96,10 +97,8 @@ export default function NavBar(props: NavbarProps) {
             />
           </Box>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Typography variant="h6" noWrap component="div" color="#555">
-              The name of our application
-            </Typography>
+          <Box sx={{ pl: 3, display: { xs: 'none', md: 'flex' } }}>
+            <AnimatedText text="DevBridge" />
           </Box>
 
           <Box sx={{ flexGrow: 0, marginLeft: 'auto' }}>
