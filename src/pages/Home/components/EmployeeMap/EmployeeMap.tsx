@@ -13,7 +13,7 @@ function MyMapComponent({ center, zoom }: { center: google.maps.LatLngLiteral; z
   const ref = useRef(null);
 
   useEffect(() => {
-    new window.google.maps.Map(ref.current!!, {
+    new window.google.maps.Map(ref.current!, {
       center,
       zoom,
     });

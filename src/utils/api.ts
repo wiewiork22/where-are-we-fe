@@ -13,7 +13,6 @@ const api = axios.create({
 export const getEmployees = async (): Promise<Employee[]> => {
   const response: Employee[] = fakeEmployees;
   return response;
-  return [];
 };
 
 export const useAddNewEmployee = () => {
@@ -22,4 +21,10 @@ export const useAddNewEmployee = () => {
 
 const addNewEmployee = async (employeeData: EmployeeForm) => {
   return await axios.post(`link`, employeeData);
+};
+
+export const useDeleteEmployee = () => {
+  const mutation = useMutation((id: string) => axios.delete(`http://localhost:8080/employees/${id}`));
+
+  return mutation;
 };

@@ -5,10 +5,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Employee from '../../../models/Employee.ts';
 import { styled } from '@mui/material';
+import EmployeeTableRow from './EmployeeTableRow';
 import { useQuery } from '@tanstack/react-query';
-import { getEmployees } from '../../../utils/api.ts';
+import { getEmployees } from '../../../utils/api';
+import { Employee } from '../../../models/Employee';
 
 const sharedStyles = {
   field: {
@@ -23,12 +24,6 @@ const sharedStyles = {
 
 const StyledTableHeader = styled(TableCell)(sharedStyles.field);
 
-const StyledFieldTableCell = styled(TableCell)(sharedStyles.field);
-
-const StyledFullName = styled('span')(sharedStyles.fullName);
-
-const StyledField = styled('span')(sharedStyles.field);
-
 function EmployeeTable() {
   //TODO handle error
   const { isLoading, data } = useQuery(['employees'], () => getEmployees());
@@ -39,7 +34,7 @@ function EmployeeTable() {
 
   const employees: Employee[] = data ?? [];
 
-  const columnNames = ['Full name', 'Department', 'Squad', 'Location'];
+  const columnNames = ['Full name', 'Department', 'Squad', 'Location', 'Action'];
 
   return (
     <TableContainer component={Paper}>
@@ -53,15 +48,7 @@ function EmployeeTable() {
         </TableHead>
         <TableBody>
           {employees.map((employee) => (
-            <TableRow key={employee.id}>
-              <TableCell>
-                <StyledFullName>{employee.fullName}</StyledFullName> <br />
-                <StyledField>{employee.position}</StyledField>
-              </TableCell>
-              <StyledFieldTableCell>{employee.department}</StyledFieldTableCell>
-              <StyledFieldTableCell>{employee.squad ?? '-'}</StyledFieldTableCell>
-              <StyledFieldTableCell>{employee.address}</StyledFieldTableCell>
-            </TableRow>
+            <EmployeeTableRow key={employee.id} employee={employee} />
           ))}
         </TableBody>
       </Table>
