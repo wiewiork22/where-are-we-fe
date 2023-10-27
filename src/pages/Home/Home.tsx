@@ -3,7 +3,7 @@ import EmployeeTable from './components/EmployeeTable.tsx';
 import EmployeeMap from './components/EmployeeMap/EmployeeMap.tsx';
 import { Card } from '@mui/material';
 
-import ModalAddEmployee from '../../components/AddEmployee/ModalAddEmployee.tsx';
+import AddEmployee from './components/AddEmployee.tsx';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 
@@ -18,6 +18,7 @@ const ButtonStyle = {
     backgroundColor: '#1E005E',
   },
 };
+
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,7 +51,7 @@ function Home() {
         <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
           Add employee
         </Button>
-        <ModalAddEmployee modalIsOpen={isModalOpen} setModalIsOpen={setIsModalOpen} />
+        <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <EmployeeTable />
       </Box>
     </>

@@ -9,11 +9,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import Modal from '@mui/material/Modal';
 import { cityOptions, countryOptions, departmentOptions, positionOptions } from '../../utils/OptionLists.ts';
 import { EmployeeForm } from '../../models/Employee.ts';
-import { useAddNewEmployee } from '../../utils/api.ts';
+import { AxiosResponse } from 'axios';
+import { UseMutateFunction } from '@tanstack/react-query';
 
 type ModalAddEmployeeProps = {
   modalIsOpen: boolean;
   setModalIsOpen: (value: boolean) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutate: UseMutateFunction<AxiosResponse<any, any>, unknown, EmployeeForm, unknown>;
+  showSnackbar: () => void;
 };
 
 const customStyles = {
@@ -46,8 +50,6 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     country: '',
   });
 
-  const { mutate: AddEmployee } = useAddNewEmployee();
-
   const isFilled: boolean =
     Object.values(employeeData).every((value) => value !== '') &&
     Object.values(employeeAddressData).every((value) => value !== '');
@@ -65,13 +67,13 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
 
   const handleAddNewEmployeeClick = () => {
     const newEmployee: EmployeeForm = { ...employeeData, address: { ...employeeAddressData } };
-    AddEmployee(newEmployee, {
+    props.mutate(newEmployee, {
       onSuccess: () => {
-        // green snackbar
+        props.showSnackbar();
         closeModal();
       },
       onError: () => {
-        // red snackbar
+        props.showSnackbar();
         closeModal(); //To test if works
       },
       onSettled: () => {
