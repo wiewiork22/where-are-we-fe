@@ -12,7 +12,10 @@ SOURCE_BRANCH_NAME=$(jq -r '.pullrequest.source.branch.name' $TRIGGER_PAYLOAD)
 
 CLOSE_SOURCE_BRANCH=$(jq -r '.pullrequest.close_source_branch' $TRIGGER_PAYLOAD)
 
-if [ "$CLOSE_SOURCE_BRANCH" != "true" ]; then
+MERGE_STATUS=$(jq -r '.pullrequest.state' $TRIGGER_PAYLOAD)
+
+if [ "$MERGE_STATUS" != "MERGED" ]; then
+
     if [ "$SOURCE_BRANCH_NAME" == "null" ]; then
 
         SOURCE_BRANCH_NAME=$(jq -r '.push.changes[0].old.name' $TRIGGER_PAYLOAD)
@@ -28,7 +31,7 @@ SOURCE_COMMIT_SHA=$(jq -r '.pullrequest.source.commit.hash' $TRIGGER_PAYLOAD)
 
 function status() {
     STATUS=$1
-    echo "{\"state\":\"$STATUS\",\"key\":\"$PR_TITLE\",\"name\":\"PR $PR_ID: $SOURCE_BRANCH_NAME → $TARGET_BRANCH_NAME\",\"url\":\"$CI_PIPELINE_URL\",\"description\":\"description\"}" > build.json
+    echo "{\"state\":\"$STATUS\",\"key\":\"gitlab-pipeline\",\"name\":\"Build & deploy\",\"url\":\"$CI_PIPELINE_URL\",\"description\":\"PR $PR_ID: $SOURCE_BRANCH_NAME → $TARGET_BRANCH_NAME\"}" > build.json
 
     curl --request POST \
         --header 'Accept: application/json' \
@@ -37,4 +40,5 @@ function status() {
         --url https://api.bitbucket.org/2.0/repositories/$REPO_URL/commit/$SOURCE_COMMIT_SHA/statuses/build/ \
         -d @build.json
 }
+
 
