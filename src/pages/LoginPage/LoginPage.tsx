@@ -7,6 +7,12 @@ import Footer from './components/Footer.tsx';
 import { SignInSeparator } from './components/SignInSeparator.tsx';
 import Typography from '@mui/material/Typography';
 import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts';
+import { useEmployeeLogin } from '../../utils/api.ts';
+import { useAuth } from '../../components/auth/AuthContext.tsx';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/routes.ts';
+import { Navigate } from 'react-router';
 
 const TextFieldInputProps = {
   style: { borderRadius: 8 },
@@ -16,6 +22,15 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPasswordShown] = useState(false);
+
+  const { mutate: loginEmployee } = useEmployeeLogin();
+
+  const navigate = useNavigate();
+  const auth = useAuth();
+
+  const navigateToHomePage = () => {
+    navigate(ROUTES.HOME);
+  };
 
   const onEmailChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -34,7 +49,26 @@ function LoginPage() {
   };
 
   const onSignInButtonClicked = () => {
-    //TODO
+    loginEmployee(
+      { email: email, password: password },
+      {
+        onSuccess: (token) => {
+          localStorage.setItem('token', token);
+          const decodedToken = jwtDecode(token);
+          const sub = decodedToken.sub;
+          const authorities = decodedToken.authorities;
+          const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
+          if (typeof sub === 'string') {
+            auth?.logIn(sub, roleArray);
+            navigateToHomePage();
+          } else {
+            console.log('Email is undefined');
+          }
+        },
+        onError: () => {},
+        onSettled: () => {},
+      }
+    );
   };
 
   const onSignInWithOrganizationButtonClicked = () => {
@@ -43,68 +77,72 @@ function LoginPage() {
 
   return (
     <>
-      <Container sx={{ width: '400px', height: '100%' }} fixed>
-        <Stack spacing="16px">
-          <Typography color="primary" variant="h4" sx={{ textAlign: 'center' }}>
-            Welcome to Devbridge Poland
-          </Typography>
+      {auth?.isLoggedIn ? (
+        <Navigate to={ROUTES.HOME} />
+      ) : (
+        <Container sx={{ width: '400px', height: '100%' }} fixed>
+          <Stack spacing="16px">
+            <Typography color="primary" variant="h4" sx={{ textAlign: 'center' }}>
+              Welcome to Devbridge Poland
+            </Typography>
 
-          <TextField
-            label="Email address"
-            variant="outlined"
-            fullWidth
-            placeholder="e.g., name@cognizant.com"
-            type="email"
-            value={email}
-            onChange={onEmailChanged}
-            InputProps={TextFieldInputProps}
-          />
+            <TextField
+              label="Email address"
+              variant="outlined"
+              fullWidth
+              placeholder="e.g., name@cognizant.com"
+              type="email"
+              value={email}
+              onChange={onEmailChanged}
+              InputProps={TextFieldInputProps}
+            />
 
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            type={isPasswordShown ? 'text' : 'password'}
-            value={password}
-            onChange={onPasswordChanged}
-            InputProps={{
-              ...TextFieldInputProps,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
-                    {isPasswordShown ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              type={isPasswordShown ? 'text' : 'password'}
+              value={password}
+              onChange={onPasswordChanged}
+              InputProps={{
+                ...TextFieldInputProps,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
+                      {isPasswordShown ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-          <Box sx={{ display: 'inline-block' }}>
-            <StyledButtonRadius100
-              sx={{ textDecoration: 'underline' }}
-              variant="text"
-              onClick={onForgotPasswordButtonClicked}
-            >
-              Forgot password?
+            <Box sx={{ display: 'inline-block' }}>
+              <StyledButtonRadius100
+                sx={{ textDecoration: 'underline' }}
+                variant="text"
+                onClick={onForgotPasswordButtonClicked}
+              >
+                Forgot password?
+              </StyledButtonRadius100>
+            </Box>
+
+            <StyledButtonRadius100 variant="contained" onClick={onSignInButtonClicked}>
+              Sign in
             </StyledButtonRadius100>
-          </Box>
 
-          <StyledButtonRadius100 variant="contained" onClick={onSignInButtonClicked}>
-            Sign in
-          </StyledButtonRadius100>
+            <SignInSeparator />
 
-          <SignInSeparator />
-
-          <StyledButtonRadius100 variant="contained" onClick={onSignInWithOrganizationButtonClicked}>
-            Sign in with Cognizant SSO
-          </StyledButtonRadius100>
-        </Stack>
-      </Container>
+            <StyledButtonRadius100 variant="contained" onClick={onSignInWithOrganizationButtonClicked}>
+              Sign in with Cognizant SSO
+            </StyledButtonRadius100>
+          </Stack>
+        </Container>
+      )}
 
       <Footer />
 
       <Modal
-        /*TODO show modal when page is loading*/
+        /* TODO: show modal when page is loading */
         open={false}
         disableAutoFocus
         disableEnforceFocus

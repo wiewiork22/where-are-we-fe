@@ -14,6 +14,7 @@ import { NavLink } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import { ROUTES } from '../../routes/routes.ts';
 import { AnimatedText } from '../AnimatedText/AnimatedText.tsx';
+import { useAuth } from '../auth/AuthContext.tsx';
 
 type NavbarProps = {
   open: boolean;
@@ -23,7 +24,6 @@ type NavbarProps = {
 const pages = [
   { title: 'My Profile', link: ROUTES.MY_PROFILE },
   { title: 'Log in', link: ROUTES.LOG_IN },
-  { title: 'Log out', link: ROUTES.LOG_OUT },
 ];
 
 interface AppBarProps extends MuiAppBarProps {
@@ -55,6 +55,8 @@ export default function NavBar(props: NavbarProps) {
   };
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const auth = useAuth();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -131,6 +133,15 @@ export default function NavBar(props: NavbarProps) {
                   </MenuItem>
                 </NavLink>
               ))}
+              <MenuItem
+                sx={{ color: '#555' }}
+                onClick={() => {
+                  handleCloseUserMenu();
+                  auth?.logOut();
+                }}
+              >
+                <Typography textAlign="center">Log Out</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
