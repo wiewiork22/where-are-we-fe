@@ -74,72 +74,127 @@ function LoginPage() {
   const onSignInWithOrganizationButtonClicked = () => {
     //TODO
   };
+  const ButtonColor = {
+    backgroundColor: '#FE5900',
+    '&:hover': {
+      backgroundColor: '#FE8300',
+    },
+  };
 
   return (
     <>
       {auth?.isLoggedIn ? (
         <Navigate to={ROUTES.HOME} />
       ) : (
-        <Container sx={{ width: '400px', height: '100%' }} fixed>
-          <Stack spacing="16px">
-            <Typography color="primary" variant="h4" sx={{ textAlign: 'center' }}>
-              Welcome to Devbridge Poland
+        <Box sx={{ width: '100vw', height: '100vh', backgroundColor: 'white', overflow: 'hidden' }}>
+          <video
+            autoPlay
+            loop
+            muted
+            src="src/videos/loginVideo.mp4"
+            style={{
+              objectFit: 'cover',
+              height: '100%',
+              minWidth: 'calc( 100vw - 400px )',
+              zIndex: -1,
+              transform: 'scaleX(-1)',
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '42vh',
+              left: '7vw',
+              color: 'white',
+            }}
+          >
+            <Typography variant="h2" gutterBottom fontFamily="DejaVu Sans" fontWeight="bold">
+              Welcome back!
             </Typography>
+            <Typography variant="h4" fontFamily="DejaVu Sans">
+              Where do you want to go today?
+            </Typography>
+            <Typography variant="h4" fontFamily="DejaVu Sans">
+              Your colleagues are waiting for you!
+            </Typography>
+          </Box>
 
-            <TextField
-              label="Email address"
-              variant="outlined"
-              fullWidth
-              placeholder="e.g., name@cognizant.com"
-              type="email"
-              value={email}
-              onChange={onEmailChanged}
-              InputProps={TextFieldInputProps}
-            />
+          <Container
+            sx={{
+              width: '400px',
+              height: '100vh',
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              bgcolor: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Stack sx={{ justifyContent: 'center', height: '100%', p: 2 }} spacing={2}>
+              <Typography color="#FE5900" variant="h4" sx={{ textAlign: 'center', fontSize: '30px' }}>
+                Welcome to Devbridge Poland
+              </Typography>
 
-            <TextField
-              label="Password"
-              variant="outlined"
-              fullWidth
-              type={isPasswordShown ? 'text' : 'password'}
-              value={password}
-              onChange={onPasswordChanged}
-              InputProps={{
-                ...TextFieldInputProps,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
-                      {isPasswordShown ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+              <TextField
+                label="Email address"
+                variant="outlined"
+                fullWidth
+                placeholder="e.g., name@cognizant.com"
+                type="email"
+                value={email}
+                onChange={onEmailChanged}
+                InputProps={TextFieldInputProps}
+              />
 
-            <Box sx={{ display: 'inline-block' }}>
-              <StyledButtonRadius100
-                sx={{ textDecoration: 'underline' }}
-                variant="text"
-                onClick={onForgotPasswordButtonClicked}
-              >
-                Forgot password?
+              <TextField
+                label="Password"
+                variant="outlined"
+                fullWidth
+                type={isPasswordShown ? 'text' : 'password'}
+                value={password}
+                onChange={onPasswordChanged}
+                InputProps={{
+                  ...TextFieldInputProps,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
+                        {isPasswordShown ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+
+              <Box sx={{ display: 'inline-block' }}>
+                <StyledButtonRadius100
+                  sx={{ textDecoration: 'underline', color: '#FE5900' }}
+                  variant="text"
+                  onClick={onForgotPasswordButtonClicked}
+                >
+                  Forgot password?
+                </StyledButtonRadius100>
+              </Box>
+
+              <StyledButtonRadius100 variant="contained" sx={ButtonColor} onClick={onSignInButtonClicked}>
+                Sign in
               </StyledButtonRadius100>
-            </Box>
 
-            <StyledButtonRadius100 variant="contained" onClick={onSignInButtonClicked}>
-              Sign in
-            </StyledButtonRadius100>
+              <SignInSeparator />
 
-            <SignInSeparator />
+              <StyledButtonRadius100
+                variant="contained"
+                sx={ButtonColor}
+                onClick={onSignInWithOrganizationButtonClicked}
+              >
+                Sign in with Cognizant SSO
+              </StyledButtonRadius100>
+            </Stack>
 
-            <StyledButtonRadius100 variant="contained" onClick={onSignInWithOrganizationButtonClicked}>
-              Sign in with Cognizant SSO
-            </StyledButtonRadius100>
-          </Stack>
-        </Container>
+            <Footer />
+          </Container>
+        </Box>
       )}
-
-      <Footer />
 
       <Modal
         /* TODO: show modal when page is loading */
