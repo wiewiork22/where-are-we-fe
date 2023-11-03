@@ -1,7 +1,14 @@
-import { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement } from 'react';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Employee } from '../../../../models/Employee.ts';
+import GoogleMapComponent from './GoogleMapComponent.tsx';
+import LatLngLiteral = google.maps.LatLngLiteral;
+
+const PolandLocation = {
+  lat: 51.9194,
+  lng: 19.1451,
+};
 
 const render = (status: Status): ReactElement => {
   if (status === Status.LOADING) return <Typography variant="h3">{status} ..</Typography>;
@@ -9,33 +16,25 @@ const render = (status: Status): ReactElement => {
   return <></>;
 };
 
-function MyMapComponent({ center, zoom }: { center: google.maps.LatLngLiteral; zoom: number }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    new window.google.maps.Map(ref.current!, {
-      center,
-      zoom,
-    });
-  }, []);
-
-  return <Box style={{ width: '100%', height: '500px' }} ref={ref} id="map" />;
-}
-
-const PolandLocation = {
-  lat: 51.9194,
-  lng: 19.1451,
+type MapOptions = {
+  center: LatLngLiteral;
+  zoom: number;
+  mapId: string;
 };
 
-function EmployeeMap() {
-  const center = PolandLocation;
-  const zoom = 6;
-
+function EmployeeMap(employees: Employee[]) {
   const apiKey = import.meta.env.VITE_MAP_API_KEY;
+  const mapId = import.meta.env.VITE_MAP_ID;
+
+  const mapOptions: MapOptions = {
+    center: PolandLocation,
+    zoom: 6,
+    mapId: mapId,
+  };
 
   return (
-    <Wrapper apiKey={apiKey} render={render}>
-      <MyMapComponent center={center} zoom={zoom} />
+    <Wrapper apiKey={apiKey} render={render} libraries={['marker', 'core']}>
+      <GoogleMapComponent mapOptions={mapOptions} employees={employees} />
     </Wrapper>
   );
 }

@@ -1,11 +1,12 @@
-import { Typography, Box, Button } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
 import EmployeeTable from './components/EmployeeTable.tsx';
 import EmployeeMap from './components/EmployeeMap/EmployeeMap.tsx';
-import { Card } from '@mui/material';
 
 import AddEmployee from './components/AddEmployee.tsx';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getEmployees } from '../../utils/api.ts';
 
 const ButtonStyle = {
   borderRadius: '50px',
@@ -21,6 +22,8 @@ const ButtonStyle = {
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: employees, isSuccess } = useQuery(['employees'], () => getEmployees());
 
   const handleModalOpenClick = () => {
     setIsModalOpen(true);
@@ -44,7 +47,7 @@ function Home() {
       </Typography>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
-        <EmployeeMap />
+        {isSuccess && EmployeeMap(employees)}
       </Card>
 
       <Box>
@@ -52,7 +55,7 @@ function Home() {
           Add employee
         </Button>
         <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <EmployeeTable />
+        {isSuccess && EmployeeTable(employees)}
       </Box>
     </>
   );
