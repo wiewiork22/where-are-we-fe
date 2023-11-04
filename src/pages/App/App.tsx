@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Box sx={{ display: 'flex', backgroundColor: '#f8f8f8', height: '100vh', width: '100vw' }}>
+      <Box sx={{ display: 'flex', backgroundColor: '#f8f8f8', height: '100%', width: '100%', minHeight: '100vh' }}>
         <BrowserRouter>
           <Routes>
             <Route path={ROUTES.LOG_IN} element={<LoginPage />} />

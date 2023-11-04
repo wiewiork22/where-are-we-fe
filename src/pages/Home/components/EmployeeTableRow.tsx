@@ -16,6 +16,7 @@ import {
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDeleteEmployee } from '../../../utils/api';
 import { Employee } from '../../../models/Employee';
+import { useAuth } from '../../../components/auth/AuthContext.tsx';
 
 const sharedStyles = {
   field: {
@@ -37,6 +38,8 @@ const StyledField = styled('span')(sharedStyles.field);
 function EmployeeTableRow({ employee }: { employee: Employee }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
+  const auth = useAuth();
+  const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const isDropDownOpen = Boolean(anchorEl);
 
@@ -56,62 +59,65 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
       <StyledFieldTableCell>{employee.department}</StyledFieldTableCell>
       <StyledFieldTableCell>{employee.squad ?? '-'}</StyledFieldTableCell>
       <StyledFieldTableCell>{truncatedAddress}</StyledFieldTableCell>
-      <StyledFieldTableCell>
-        <IconButton aria-label="more" id="delete-button" onClick={(event) => setAnchorEl(event.currentTarget)}>
-          <MoreHorizIcon />
-        </IconButton>
+      {isAdmin && (
+        <StyledFieldTableCell>
+          <IconButton aria-label="more" id="delete-button" onClick={(event) => setAnchorEl(event.currentTarget)}>
+            <MoreHorizIcon />
+          </IconButton>
 
-        <Menu
-          disableScrollLock
-          id="long-menu"
-          MenuListProps={{
-            'aria-labelledby': 'delete-button',
-          }}
-          anchorEl={anchorEl}
-          open={isDropDownOpen}
-          onClose={() => setAnchorEl(null)}
-        >
-          <MenuItem
-            onClick={() => {
-              setIsDialogOpen(true);
-              setAnchorEl(null);
+          <Menu
+            disableScrollLock
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'delete-button',
             }}
+            anchorEl={anchorEl}
+            open={isDropDownOpen}
+            onClose={() => setAnchorEl(null)}
           >
-            Delete Employee
-          </MenuItem>
-        </Menu>
-        <Dialog
-          open={isDialogOpen}
-          disableScrollLock
-          disableEnforceFocus
-          hideBackdrop
-          onClose={() => setIsDialogOpen(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Delete Employee</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete {employee.fullName} employee profile? Profile will be deleted permanently
-              and cannot be restored.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-            <Button
+            <MenuItem
               onClick={() => {
-                deleteEmployeeMutation.mutate(employee.id);
-                setIsDialogOpen(false);
+                setIsDialogOpen(true);
+                setAnchorEl(null);
               }}
-              autoFocus
-              color="error"
-              variant="outlined"
             >
               Delete Employee
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </StyledFieldTableCell>
+            </MenuItem>
+          </Menu>
+          <Dialog
+            open={isDialogOpen}
+            disableScrollLock
+            disableEnforceFocus
+            hideBackdrop
+            onClose={() => setIsDialogOpen(false)}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">Delete Employee</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Are you sure you want to delete {employee.fullName} employee profile? Profile will be deleted
+                permanently and cannot be restored.
+              </DialogContentText>
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+              <Button
+                onClick={() => {
+                  deleteEmployeeMutation.mutate(employee.id);
+                  setIsDialogOpen(false);
+                }}
+                autoFocus
+                color="error"
+                variant="outlined"
+              >
+                Delete Employee
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </StyledFieldTableCell>
+      )}
     </TableRow>
   );
 }

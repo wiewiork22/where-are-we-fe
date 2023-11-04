@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material';
 import EmployeeTableRow from './EmployeeTableRow';
 import { Employee } from '../../../models/Employee';
+import { useAuth } from '../../../components/auth/AuthContext.tsx';
 
 const sharedStyles = {
   field: {
@@ -23,7 +24,10 @@ const sharedStyles = {
 const StyledTableHeader = styled(TableCell)(sharedStyles.field);
 
 function EmployeeTable(employees: Employee[]) {
-  const columnNames = ['Full name', 'Department', 'Squad', 'Location', 'Action'];
+  const auth = useAuth();
+  const columnNames = auth?.userRoles.includes('ADMIN')
+    ? ['Full name', 'Department', 'Squad', 'Location', 'Action']
+    : ['Full name', 'Department', 'Squad', 'Location'];
 
   return (
     <TableContainer component={Paper}>

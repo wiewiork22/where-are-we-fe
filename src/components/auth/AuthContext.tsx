@@ -7,8 +7,8 @@ const AuthContext = createContext<
       setUserEmail: React.Dispatch<React.SetStateAction<string | null>>;
       isLoggedIn: boolean;
       setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-      userRole: string[];
-      setUserRole: React.Dispatch<React.SetStateAction<string[]>>;
+      userRoles: string[];
+      setUserRoles: React.Dispatch<React.SetStateAction<string[]>>;
       logIn(email: string | null, role: string[]): void;
       logOut(): void;
     }
@@ -26,7 +26,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userRole, setUserRole] = useState<string[]>([]);
+  const [userRoles, setUserRoles] = useState<string[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -47,13 +47,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   const logIn = (email: string, role: string[]) => {
     setUserEmail(email);
     setIsLoggedIn(true);
-    setUserRole(role);
+    setUserRoles(role);
   };
 
   const logOut = () => {
     setUserEmail(null);
     setIsLoggedIn(false);
-    setUserRole([]);
+    setUserRoles([]);
     localStorage.removeItem('token');
   };
 
@@ -62,8 +62,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
     setUserEmail,
     isLoggedIn,
     setIsLoggedIn,
-    userRole,
-    setUserRole,
+    userRoles: userRoles,
+    setUserRoles: setUserRoles,
     logIn,
     logOut,
   };

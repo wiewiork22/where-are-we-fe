@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getEmployees } from '../../utils/api.ts';
+import { useAuth } from '../../components/auth/AuthContext.tsx';
 
 const ButtonStyle = {
   borderRadius: '50px',
@@ -22,8 +23,9 @@ const ButtonStyle = {
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const auth = useAuth();
   const { data: employees, isSuccess } = useQuery(['employees'], () => getEmployees());
+  const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const handleModalOpenClick = () => {
     setIsModalOpen(true);
@@ -51,9 +53,11 @@ function Home() {
       </Card>
 
       <Box>
-        <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
-          Add employee
-        </Button>
+        {isAdmin && (
+          <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
+            Add employee
+          </Button>
+        )}
         <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         {isSuccess && EmployeeTable(employees)}
       </Box>

@@ -74,7 +74,6 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
       },
       onError: () => {
         props.showSnackbar();
-        closeModal(); //To test if works
       },
       onSettled: () => {
         // loading
@@ -121,6 +120,14 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                 variant={inputFieldVariant}
                 sx={{ mb: 1 }}
                 onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
+              />
+
+              <TextField
+                value={employeeData.email}
+                label="email"
+                variant={inputFieldVariant}
+                sx={{ mb: 1 }}
+                onChange={(e) => handleEmployeeChangeValue('email', e.target.value)}
               />
 
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>

@@ -21,11 +21,6 @@ type NavbarProps = {
   setOpen: (value: boolean) => void;
 };
 
-const pages = [
-  { title: 'My Profile', link: ROUTES.MY_PROFILE },
-  { title: 'Log in', link: ROUTES.LOG_IN },
-];
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -111,6 +106,7 @@ export default function NavBar(props: NavbarProps) {
             </Tooltip>
 
             <Menu
+              disableScrollLock
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -126,13 +122,11 @@ export default function NavBar(props: NavbarProps) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {pages.map((page, index) => (
-                <NavLink key={index} style={{ textDecoration: 'none', color: '#555' }} to={`${page.link}`}>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{page.title}</Typography>
-                  </MenuItem>
-                </NavLink>
-              ))}
+              <NavLink style={{ textDecoration: 'none', color: '#555' }} to={ROUTES.MY_PROFILE}>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">My Profile</Typography>
+                </MenuItem>
+              </NavLink>
               <MenuItem
                 sx={{ color: '#555' }}
                 onClick={() => {
