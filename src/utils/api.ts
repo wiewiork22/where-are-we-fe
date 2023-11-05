@@ -4,12 +4,6 @@ import fakeEmployees from './FakeEmployees.json';
 import { Employee } from '../models/Employee';
 import { EmployeeForm } from '../models/Employee';
 
-const api = axios.create({
-  //TODO replace with real api
-  baseURL: 'https://api.example.com',
-  timeout: 5000,
-});
-
 export const getEmployees = async (): Promise<Employee[]> => {
   const response: Employee[] = fakeEmployees;
   return response;
