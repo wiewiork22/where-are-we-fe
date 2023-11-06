@@ -14,9 +14,9 @@ import {
   styled,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useDeleteEmployee } from '../../../utils/api';
-import { Employee } from '../../../models/Employee';
-import { useAuth } from '../../../components/auth/AuthContext.tsx';
+import { useDeleteEmployee } from '../../../../utils/api';
+import { Employee } from '../../../../models/Employee';
+import { useAuth } from '../../../../components/auth/AuthContext.tsx';
 import { useTheme } from '@mui/material/styles';
 
 const sharedStyles = {

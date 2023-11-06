@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import ModalAddEmployee from '../../../components/AddEmployee/ModalAddEmployee';
-import CustomSnackbar from '../../../components/snackbars/CustomSnackbar';
-import { useAddNewEmployee } from '../../../utils/api';
+import ModalAddEmployee from '../../../../components/AddEmployee/ModalAddEmployee.tsx';
+import CustomSnackbar from '../../../../components/snackbars/CustomSnackbar.tsx';
+import { useAddNewEmployee } from '../../../../utils/api.ts';
 
 type AddEmployeeProps = {
   isModalOpen: boolean;
