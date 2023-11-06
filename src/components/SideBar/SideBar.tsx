@@ -85,15 +85,15 @@ export default function SideBar(props: SidebarProps) {
   return (
     <Box>
       <Drawer variant="permanent" open={props.open} sx={!props.open ? { display: { xs: 'none', md: 'flex' } } : {}}>
-        <DrawerHeader sx={{ background: '#EEEEF1' }}>
+        <DrawerHeader sx={{ background: 'background.paper' }}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ background: '#EEEEF1' }}>
+        <List sx={{ background: 'background.paper' }}>
           {pages.map((page, index) => (
-            <NavLink key={index} to={`${page.link}`} style={{ textDecoration: 'none', color: '#555' }}>
+            <NavLink key={index} to={`${page.link}`} style={{ textDecoration: 'none' }}>
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                   sx={{
@@ -111,14 +111,14 @@ export default function SideBar(props: SidebarProps) {
                   >
                     {page.icon}
                   </ListItemIcon>
-                  <ListItemText primary={page.title} sx={{ opacity: props.open ? 1 : 0 }} />
+                  <ListItemText primary={page.title} sx={{ opacity: props.open ? 1 : 0, color: 'text.primary' }} />
                 </ListItemButton>
               </ListItem>
             </NavLink>
           ))}
         </List>
         <Divider />
-        <Box sx={{ flexGrow: 1, background: '#EEEEF1' }} />
+        <Box sx={{ flexGrow: 1, background: 'background.paper' }} />
       </Drawer>
     </Box>
   );

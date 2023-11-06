@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { ROUTES } from '../../routes/routes.ts';
 import { AnimatedText } from '../AnimatedText/AnimatedText.tsx';
 import { useAuth } from '../auth/AuthContext.tsx';
+import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch.tsx';
+import { useColorMode } from '../ColorModeContex/ColorModeContex.tsx';
 
 type NavbarProps = {
   open: boolean;
@@ -61,17 +62,17 @@ export default function NavBar(props: NavbarProps) {
     setAnchorElUser(null);
   };
 
+  const { toggleColorMode, mode } = useColorMode();
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ background: '#161615' }} open={props.open}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'background.paper' }} open={props.open}>
         <Toolbar>
           <IconButton
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              '& svg': { color: 'white' },
               marginRight: 5,
               ...(props.open && { display: 'none' }),
             }}
@@ -97,8 +98,13 @@ export default function NavBar(props: NavbarProps) {
           <Box sx={{ pl: 3, display: { xs: 'none', md: 'flex' } }}>
             <AnimatedText text="DevBridge" />
           </Box>
+          <DarkModeSwitch
+            sx={{ felxGrow: 0, ml: 'auto', mr: 2 }}
+            checked={mode === 'dark'}
+            onChange={toggleColorMode}
+          />
 
-          <Box sx={{ flexGrow: 0, marginLeft: 'auto' }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Simon" />
@@ -124,7 +130,9 @@ export default function NavBar(props: NavbarProps) {
             >
               <NavLink style={{ textDecoration: 'none', color: '#555' }} to={ROUTES.MY_PROFILE}>
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">My Profile</Typography>
+                  <Typography textAlign="center" color="text.primary">
+                    My Profile
+                  </Typography>
                 </MenuItem>
               </NavLink>
               <MenuItem
@@ -134,7 +142,9 @@ export default function NavBar(props: NavbarProps) {
                   auth?.logOut();
                 }}
               >
-                <Typography textAlign="center">Log Out</Typography>
+                <Typography textAlign="center" color="text.primary">
+                  Log Out
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>

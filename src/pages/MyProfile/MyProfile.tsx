@@ -15,15 +15,15 @@ function MyProfile() {
 
   return (
     <>
-      <Typography variant="h3" color="#2A514B">
+      <Typography variant="h3" color="primary">
         My profile
       </Typography>
-      <Typography paragraph style={{ paddingBottom: '50px' }}>
+      <Typography paragraph color="text.primary" sx={{ pb: '50px' }}>
         Edit your personal information, position and working address
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={3}>
-          <Typography variant="caption" component={'div'}>
+          <Typography variant="caption" color="text.primary" component={'div'}>
             Photo
           </Typography>
           <img
@@ -68,7 +68,9 @@ function MyProfile() {
               </Grid>
             </Grid>
             <Divider />
-            <Typography variant="h6">Address</Typography>
+            <Typography variant="h6" color="text.primary">
+              Address
+            </Typography>
             <TextField
               id="street"
               label="Street address"

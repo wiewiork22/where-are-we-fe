@@ -1,4 +1,4 @@
-import { Box, Button, Card, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import EmployeeTable from './components/EmployeeTable.tsx';
 import EmployeeMap from './components/EmployeeMap/EmployeeMap.tsx';
 
@@ -8,17 +8,13 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getEmployees } from '../../utils/api.ts';
 import { useAuth } from '../../components/auth/AuthContext.tsx';
+import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts';
 
 const ButtonStyle = {
-  borderRadius: '50px',
-  backgroundColor: '#000048',
   float: 'right',
   p: 1,
   pr: 3,
   pl: 3,
-  '&:hover': {
-    backgroundColor: '#1E005E',
-  },
 };
 
 function Home() {
@@ -33,11 +29,11 @@ function Home() {
 
   return (
     <>
-      <Typography variant="h2" color="#2A514B" style={{ paddingBottom: '40px' }}>
+      <Typography variant="h2" color="primary" style={{ paddingBottom: '40px' }}>
         This is the home page
       </Typography>
 
-      <Typography paragraph style={{ paddingBottom: '50px' }}>
+      <Typography paragraph color="text.primary" style={{ paddingBottom: '50px' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
         imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
@@ -54,9 +50,14 @@ function Home() {
 
       <Box>
         {isAdmin && (
-          <Button variant="contained" startIcon={<AddIcon />} sx={ButtonStyle} onClick={handleModalOpenClick}>
+          <StyledButtonRadius100
+            variant="contained"
+            startIcon={<AddIcon />}
+            sx={ButtonStyle}
+            onClick={handleModalOpenClick}
+          >
             Add employee
-          </Button>
+          </StyledButtonRadius100>
         )}
         <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         {isSuccess && EmployeeTable(employees)}

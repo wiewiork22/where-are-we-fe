@@ -89,7 +89,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
   return (
     <>
       <Modal open={props.modalIsOpen} onClose={closeModal} sx={customStyles}>
-        <Box sx={{ backgroundColor: 'white', display: 'flex', flexDirection: 'column', p: 1 }}>
+        <Box sx={{ backgroundColor: 'background.paper', display: 'flex', flexDirection: 'column', p: 1 }}>
           <Box sx={{ pl: 4, display: 'flex', flexDirection: 'column' }}>
             <Button
               onClick={closeModal}
@@ -101,19 +101,30 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
             >
               <CloseIcon style={{ color: '#555' }} />
             </Button>
-            <Typography variant="h3">Add Employee</Typography>
+            <Typography variant="h3" color="text.primary">
+              Add Employee
+            </Typography>
           </Box>
 
           <Divider />
           <Box sx={{ display: 'flex', pl: 3, pb: 3 }}>
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 1, pt: 1 }}>
-              <Typography>Photo</Typography>
+              <Typography color="text.primary">Photo</Typography>
               <img src="src/images/logo.png" alt="logo" style={{ maxWidth: '180px' }} />
               <Button fullWidth variant="contained" sx={{ p: 2, mt: 'auto' }} onClick={closeModal}>
                 Cancel
               </Button>
             </Box>
-            <Box sx={{ flex: 3, backgroundColor: 'white', display: 'flex', flexDirection: 'column', p: 1, pr: 4 }}>
+            <Box
+              sx={{
+                flex: 3,
+                backgroundColor: 'background.paper',
+                display: 'flex',
+                flexDirection: 'column',
+                p: 1,
+                pr: 4,
+              }}
+            >
               <TextField
                 value={employeeData.fullName}
                 label="Full name"
@@ -172,7 +183,9 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                 />
               </Box>
               <Divider sx={{ pt: 1 }} />
-              <Typography sx={{ pt: 2, pb: 2 }}>Address</Typography>
+              <Typography sx={{ pt: 2, pb: 2 }} color="text.primary">
+                Address
+              </Typography>
               <TextField
                 value={employeeAddressData.streetAddress}
                 label="Street Address"

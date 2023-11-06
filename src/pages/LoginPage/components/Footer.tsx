@@ -20,7 +20,7 @@ function Footer() {
       {links.map((link, index) => {
         return (
           <Grid item key={index}>
-            <Link href={link.link} sx={{ textDecoration: 'none', color: '#999999' }}>
+            <Link href={link.link} sx={{ textDecoration: 'none' }}>
               {link.name}
             </Link>
           </Grid>

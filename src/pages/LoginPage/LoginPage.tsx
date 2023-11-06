@@ -74,19 +74,13 @@ function LoginPage() {
   const onSignInWithOrganizationButtonClicked = () => {
     //TODO
   };
-  const ButtonColor = {
-    backgroundColor: '#FE5900',
-    '&:hover': {
-      backgroundColor: '#FE8300',
-    },
-  };
 
   return (
     <>
       {auth?.isLoggedIn ? (
         <Navigate to={ROUTES.HOME} />
       ) : (
-        <Box sx={{ width: '100vw', height: '100vh', backgroundColor: 'white', overflow: 'hidden' }}>
+        <Box sx={{ width: '100vw', height: '100vh', backgroundColor: 'background.default', overflow: 'hidden' }}>
           <video
             autoPlay
             loop
@@ -126,13 +120,13 @@ function LoginPage() {
               position: 'absolute',
               right: 0,
               top: 0,
-              bgcolor: 'white',
+              bgcolor: 'background.default',
               display: 'flex',
               flexDirection: 'column',
             }}
           >
             <Stack sx={{ justifyContent: 'center', height: '100%', p: 2 }} spacing={2}>
-              <Typography color="#FE5900" variant="h4" sx={{ textAlign: 'center', fontSize: '30px' }}>
+              <Typography color="primary" variant="h4" sx={{ textAlign: 'center', fontSize: '30px' }}>
                 Welcome to Devbridge Poland
               </Typography>
 
@@ -156,6 +150,7 @@ function LoginPage() {
                 onChange={onPasswordChanged}
                 InputProps={{
                   ...TextFieldInputProps,
+                  autoComplete: 'off',
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
@@ -168,7 +163,7 @@ function LoginPage() {
 
               <Box sx={{ display: 'inline-block' }}>
                 <StyledButtonRadius100
-                  sx={{ textDecoration: 'underline', color: '#FE5900' }}
+                  sx={{ textDecoration: 'underline', color: 'primary' }}
                   variant="text"
                   onClick={onForgotPasswordButtonClicked}
                 >
@@ -176,17 +171,13 @@ function LoginPage() {
                 </StyledButtonRadius100>
               </Box>
 
-              <StyledButtonRadius100 variant="contained" sx={ButtonColor} onClick={onSignInButtonClicked}>
+              <StyledButtonRadius100 variant="contained" onClick={onSignInButtonClicked}>
                 Sign in
               </StyledButtonRadius100>
 
               <SignInSeparator />
 
-              <StyledButtonRadius100
-                variant="contained"
-                sx={ButtonColor}
-                onClick={onSignInWithOrganizationButtonClicked}
-              >
+              <StyledButtonRadius100 variant="contained" onClick={onSignInWithOrganizationButtonClicked}>
                 Sign in with Cognizant SSO
               </StyledButtonRadius100>
             </Stack>

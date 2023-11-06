@@ -12,11 +12,9 @@ import { useAuth } from '../../../components/auth/AuthContext.tsx';
 
 const sharedStyles = {
   field: {
-    color: '#555555',
     fontSize: 'small',
   },
   fullName: {
-    color: '#0e0053',
     fontSize: 'medium',
   },
 };

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 type AnimatedTextProps = {
   text: string;
@@ -17,12 +18,15 @@ const spanStyle = {
 };
 
 export const AnimatedText = ({ text }: AnimatedTextProps) => {
+  const theme = useTheme();
+  const gradientBackground = `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`;
+
   return (
     <Typography
       noWrap
       style={{
         fontSize: '40px',
-        backgroundImage: '-webkit-linear-gradient(45deg, #bdf4f0,  #3dc1b7 )',
+        backgroundImage: gradientBackground,
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         fontWeight: 'bold',

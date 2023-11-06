@@ -17,14 +17,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDeleteEmployee } from '../../../utils/api';
 import { Employee } from '../../../models/Employee';
 import { useAuth } from '../../../components/auth/AuthContext.tsx';
+import { useTheme } from '@mui/material/styles';
 
 const sharedStyles = {
   field: {
-    color: '#555555',
     fontSize: 'small',
   },
   fullName: {
-    color: '#0e0053',
     fontSize: 'medium',
   },
 };
@@ -39,6 +38,8 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
   const auth = useAuth();
+  const theme = useTheme();
+  const primaryColor = theme.palette.primary.main;
   const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const isDropDownOpen = Boolean(anchorEl);
@@ -53,7 +54,7 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
   return (
     <TableRow key={employee.id}>
       <TableCell>
-        <StyledFullName>{employee.fullName}</StyledFullName> <br />
+        <StyledFullName style={{ color: primaryColor }}>{employee.fullName}</StyledFullName> <br />
         <StyledField>{employee.position}</StyledField>
       </TableCell>
       <StyledFieldTableCell>{employee.department}</StyledFieldTableCell>
