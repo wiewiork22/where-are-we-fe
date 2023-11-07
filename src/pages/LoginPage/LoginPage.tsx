@@ -49,26 +49,33 @@ function LoginPage() {
   };
 
   const onSignInButtonClicked = () => {
-    loginEmployee(
-      { email: email, password: password },
-      {
-        onSuccess: (token) => {
-          localStorage.setItem('token', token);
-          const decodedToken = jwtDecode(token);
-          const sub = decodedToken.sub;
-          const authorities = decodedToken.authorities;
-          const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
-          if (typeof sub === 'string') {
-            auth?.logIn(sub, roleArray);
-            navigateToHomePage();
-          } else {
-            console.log('Email is undefined');
-          }
-        },
-        onError: () => {},
-        onSettled: () => {},
-      }
-    );
+    //TODO: remove this IF when APP is ready https://devbridge.atlassian.net/browse/S2ED-76
+    if (email === 'ADMIN' && password === 'ADMIN') {
+      localStorage.setItem('token', 'token');
+      auth?.logIn('ADMIN', ['ADMIN']);
+      navigateToHomePage();
+    } else {
+      loginEmployee(
+        { email: email, password: password },
+        {
+          onSuccess: (token) => {
+            localStorage.setItem('token', token);
+            const decodedToken = jwtDecode(token);
+            const sub = decodedToken.sub;
+            const authorities = decodedToken.authorities;
+            const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
+            if (typeof sub === 'string') {
+              auth?.logIn(sub, roleArray);
+              navigateToHomePage();
+            } else {
+              console.log('Email is undefined');
+            }
+          },
+          onError: () => {},
+          onSettled: () => {},
+        }
+      );
+    }
   };
 
   const onSignInWithOrganizationButtonClicked = () => {

@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from '@mui/material/Modal';
-import { cityOptions, countryOptions, departmentOptions, positionOptions } from '../../utils/OptionLists.ts';
+import { cityOptions, countryOptions, departmentOptions, positionOptions } from '../../utils/OptionLists';
 import { EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';

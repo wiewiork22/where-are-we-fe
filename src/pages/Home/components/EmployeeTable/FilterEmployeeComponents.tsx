@@ -40,7 +40,7 @@ function FilterEmployeeComponents({ employees, onFiltered }: Props) {
 
   return (
     <Box>
-      <Typography>Filter by:</Typography>
+      <Typography color="text.primary">Filter by:</Typography>
       <MultiSelect
         label={'Cities'}
         items={allCities}

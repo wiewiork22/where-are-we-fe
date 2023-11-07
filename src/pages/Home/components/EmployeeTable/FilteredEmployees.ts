@@ -25,19 +25,19 @@ class FilteredEmployees {
   }
 
   private applyFilters() {
-    let filteredItems = this.employees
+    const filteredItems = this.employees
       .filter((employee) => {
-        const filter = this.appliedFilters.get(FilterEmployeeBy.CITY)!!;
+        const filter = this.appliedFilters.get(FilterEmployeeBy.CITY)!;
 
         return filter.includes(ALL) || filter.includes(employee.address.city);
       })
       .filter((employee) => {
-        const filter = this.appliedFilters.get(FilterEmployeeBy.DEPARTMENT)!!;
+        const filter = this.appliedFilters.get(FilterEmployeeBy.DEPARTMENT)!;
 
         return filter.includes(ALL) || filter.includes(employee.department);
       })
       .filter((employee) => {
-        const filter = this.appliedFilters.get(FilterEmployeeBy.SQUAD)!!;
+        const filter = this.appliedFilters.get(FilterEmployeeBy.SQUAD)!;
 
         const squad = employee.squad ?? NO_SQUAD;
 

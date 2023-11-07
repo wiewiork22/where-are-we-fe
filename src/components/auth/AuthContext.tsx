@@ -30,7 +30,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    //TODO: remove this IF when APP is ready https://devbridge.atlassian.net/browse/S2ED-76
+    if (token === 'token') {
+      logIn('ADMIN', ['ADMIN']);
+    } else if (token) {
       const decodedToken = jwtDecode(token);
       const sub = decodedToken.sub;
       const authorities = decodedToken.authorities;

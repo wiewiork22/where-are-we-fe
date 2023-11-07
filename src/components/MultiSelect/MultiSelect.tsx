@@ -32,16 +32,16 @@ function MultipleSelect({ label, items, onFilterChanged }: Props) {
       target: { value },
     } = event;
 
-    if(typeof value === 'string') {
+    if (typeof value === 'string') {
       setSelectedItems([value]);
       onFilterChanged([value]);
     } else {
-      let newSelectedItems = value
+      let newSelectedItems = value;
 
-      if(selectedItems.includes(ALL) && newSelectedItems.length > 1) {
+      if (selectedItems.includes(ALL) && newSelectedItems.length > 1) {
         newSelectedItems.splice(newSelectedItems.indexOf(ALL), 1);
       } else if ((newSelectedItems.includes(ALL) && newSelectedItems.length > 1) || newSelectedItems.length == 0) {
-        newSelectedItems = [ALL]
+        newSelectedItems = [ALL];
       }
 
       setSelectedItems(newSelectedItems);
@@ -61,7 +61,9 @@ function MultipleSelect({ label, items, onFilterChanged }: Props) {
         input={<OutlinedInput label={label} />}
         MenuProps={MenuProps}
       >
-        <MenuItem key={ALL} value={ALL}>All</MenuItem>
+        <MenuItem key={ALL} value={ALL}>
+          All
+        </MenuItem>
         {items.map((itemLabel) => (
           <MenuItem key={itemLabel} value={itemLabel}>
             {itemLabel}
@@ -72,5 +74,5 @@ function MultipleSelect({ label, items, onFilterChanged }: Props) {
   );
 }
 
-export {ALL};
+export { ALL };
 export default MultipleSelect;
