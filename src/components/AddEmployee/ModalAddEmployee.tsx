@@ -41,21 +41,26 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     department: '',
     position: '',
     squad: '',
+    email: '',
   });
   const [employeeAddressData, setEmployeeAddressData] = useState({
-    streetAddress: '',
+    street: '',
     city: '',
     state: '',
     postCode: '',
     country: '',
+    lat_lng: {
+      lat: 0,
+      lng: 0,
+    },
   });
 
   const isFilled: boolean =
     Object.values(employeeData).every((value) => value !== '') &&
     Object.values(employeeAddressData).every((value) => value !== '');
   const resetAllFields = () => {
-    setEmployeeData({ fullName: '', department: '', position: '', squad: '' });
-    setEmployeeAddressData({ streetAddress: '', city: '', state: '', postCode: '', country: '' });
+    setEmployeeData({ fullName: '', department: '', position: '', squad: '', email: '' });
+    setEmployeeAddressData({ street: '', city: '', state: '', postCode: '', country: '', lat_lng: { lat: 0, lng: 0 } });
   };
   const handleEmployeeChangeValue = (key: string, value: string) => {
     setEmployeeData((data) => ({ ...data, [key]: value }));
@@ -74,9 +79,6 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
       },
       onError: () => {
         props.showSnackbar();
-      },
-      onSettled: () => {
-        // loading
       },
     });
   };
@@ -187,11 +189,11 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                 Address
               </Typography>
               <TextField
-                value={employeeAddressData.streetAddress}
-                label="Street Address"
+                value={employeeAddressData.street}
+                label="street"
                 variant={inputFieldVariant}
                 sx={{ mb: 1 }}
-                onChange={(e) => handleAddressChangeValue('streetAddress', e.target.value)}
+                onChange={(e) => handleAddressChangeValue('street', e.target.value)}
               />
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <FormControl fullWidth sx={{ mb: 1, mr: 1 }}>

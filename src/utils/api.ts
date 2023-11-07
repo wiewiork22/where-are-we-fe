@@ -14,7 +14,7 @@ export const useAddNewEmployee = () => {
 };
 
 const addNewEmployee = async (employeeData: EmployeeForm) => {
-  return await axios.post(`link`, employeeData);
+  return await axios.post(`http://localhost:8080/employees`, employeeData);
 };
 
 export const useEmployeeLogin = () => {
