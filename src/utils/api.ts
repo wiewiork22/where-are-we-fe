@@ -38,3 +38,11 @@ export const useDeleteEmployee = () => {
 
   return mutation;
 };
+export const useEditEmployee = () => {
+  return useMutation(editEmployee);
+};
+
+const editEmployee = async (employee: Employee) => {
+  const { id, ...data } = employee;
+  return await axios.put<Employee>(`http://localhost:8080/employees/${id}`, data);
+};

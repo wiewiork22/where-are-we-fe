@@ -13,6 +13,7 @@ export interface EmployeeForm {
   squad: string | null;
   department: string;
   address: Address;
+  email: string;
 }
 export interface Employee extends EmployeeForm {
   id: string;

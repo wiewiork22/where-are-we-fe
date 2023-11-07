@@ -3,6 +3,7 @@ import { Employee } from '../../../../models/Employee';
 import { useAuth } from '../../../../components/auth/AuthContext.tsx';
 import { useTheme } from '@mui/material/styles';
 import DeleteEmployee from '../DeleteEmployee.tsx';
+import EditEmployee from './EditEmployee.tsx';
 
 const sharedStyles = {
   field: {
@@ -41,6 +42,7 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
       <StyledFieldTableCell>{truncatedAddress}</StyledFieldTableCell>
       {isAdmin && (
         <StyledFieldTableCell>
+          <EditEmployee employee={employee} />
           <DeleteEmployee employeeId={employee.id} employeeFullName={employee.fullName} />
         </StyledFieldTableCell>
       )}
