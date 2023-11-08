@@ -1,17 +1,25 @@
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
+import { Divider, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts';
 
-const departments = ['Operations', 'HR'];
+const countries = ['Poland', 'Germany'];
+const states = ['Kujawsko-Pomorskie', 'Pomorskie'];
+const cities = ['Toruń', 'Gdańsk'];
 
 function MyProfile() {
-  const [department, setDepartment] = useState(departments[0]);
-
-  const handleDepartmentChange = (event: SelectChangeEvent) => {
-    setDepartment(event.target.value);
-  };
+  const [fullName, setFullName] = useState('Mikołaj Kopernik');
+  const [selectedDepartment, setSelectedDepartment] = useState('magic');
+  const [selectedPosition, setSelectedPosition] = useState('position');
+  const [selectedSquad, setSelectedSquad] = useState('Power Rangers');
+  const [street, setStreet] = useState('Jurija Gagarina 11');
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCity, setSelectedCity] = useState(cities[0]);
+  const [selectedState, setSelectedState] = useState(states[0]);
+  const [postcode, setPostcode] = useState('87-100');
 
   return (
     <>
@@ -36,36 +44,25 @@ function MyProfile() {
         </Grid>
         <Grid item xs={9}>
           <Stack spacing={2}>
-            <TextField
-              id="full-name"
-              label="Full name"
-              variant="outlined"
-              fullWidth
-              disabled
-              defaultValue={''}
-              value={'Mikołaj Kopernik'}
-            />
+            <TextField disabled id="full-name" label="Full name" variant="outlined" fullWidth value={fullName} />
             <Grid container spacing={0} justifyContent={'space-between'} columns={30}>
-              <Grid item xs={14}>
+              <Box sx={{ display: 'flex', flex: 1, gap: '16px' }}>
                 <FormControl fullWidth>
-                  <InputLabel id="department">Department</InputLabel>
-                  <Select
-                    disabled
-                    labelId="department-select-label"
-                    id="department-select"
-                    value={department}
-                    label="Department"
-                    onChange={handleDepartmentChange}
-                  >
-                    {departments.map((dep) => (
-                      <MenuItem value={dep}>{dep}</MenuItem>
-                    ))}
-                  </Select>
+                  <TextField disabled id="department-select" value={selectedDepartment} label="Department"></TextField>
                 </FormControl>
-              </Grid>
-              <Grid item xs={14}>
-                <TextField id="role" label="Role" variant="outlined" fullWidth value={'Accountant'} disabled />
-              </Grid>
+                <FormControl fullWidth>
+                  <TextField disabled id="position-select" value={selectedPosition} label="Position"></TextField>
+                </FormControl>
+
+                <TextField
+                  id="squad"
+                  label="Squad"
+                  variant="outlined"
+                  fullWidth
+                  value={selectedSquad}
+                  onChange={(event) => setSelectedSquad(event.target.value)}
+                />
+              </Box>
             </Grid>
             <Divider />
             <Typography variant="h6" color="text.primary">
@@ -76,59 +73,81 @@ function MyProfile() {
               label="Street address"
               variant="outlined"
               fullWidth
-              value={'Jurija Gagarina 11'}
-              disabled
-              defaultValue={''}
+              value={street}
+              onChange={(event) => setStreet(event.target.value)}
             />
-            <Grid container spacing={0} justifyContent={'space-between'} columns={30}>
-              <Grid item xs={14}>
-                <TextField
-                  id="city"
+            <Box sx={{ display: 'flex', flex: 1, gap: '16px' }}>
+              <FormControl fullWidth>
+                <InputLabel id="city">City</InputLabel>
+                <Select
+                  labelId="city-select-label"
+                  id="city-select"
+                  value={selectedCity}
                   label="City"
-                  variant="outlined"
-                  fullWidth
-                  value={'Toruń'}
-                  defaultValue={''}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={14}>
-                <TextField
-                  id="state"
+                  onChange={(event) => setSelectedCity(event.target.value)}
+                >
+                  {cities.map((city) => (
+                    <MenuItem key={city} value={city}>
+                      {city}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel id="state">State / Province</InputLabel>
+                <Select
+                  labelId="state-select-label"
+                  id="state-select"
+                  value={selectedState}
                   label="State / Province"
-                  variant="outlined"
-                  defaultValue={''}
-                  fullWidth
-                  disabled
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0} justifyContent={'space-between'} columns={30}>
-              <Grid item xs={14}>
-                <TextField
-                  id="postcode"
-                  label="Postcode"
-                  variant="outlined"
-                  fullWidth
-                  defaultValue={''}
-                  value={'87-100'}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={14}>
-                <TextField
-                  id="country"
+                  onChange={(event) => setSelectedState(event.target.value)}
+                >
+                  {states.map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ display: 'flex', flex: 1, gap: '16px' }}>
+              <TextField
+                id="postcode"
+                label="Postcode"
+                variant="outlined"
+                fullWidth
+                value={postcode}
+                onChange={(event) => setPostcode(event.target.value)}
+              />
+
+              <FormControl fullWidth>
+                <InputLabel id="country">Country</InputLabel>
+                <Select
+                  labelId="country-select-label"
+                  id="country-select"
+                  value={selectedCountry}
                   label="Country"
-                  variant="outlined"
-                  fullWidth
-                  defaultValue={''}
-                  value={'Poland'}
-                  disabled
-                />
-              </Grid>
-            </Grid>
+                  onChange={(event) => setSelectedCountry(event.target.value)}
+                >
+                  {countries.map((country) => (
+                    <MenuItem key={country} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </Stack>
         </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{ mt: '20px', gap: '10px' }} justifyContent={'flex-end'}>
+        <StyledButtonRadius100 variant="outlined" sx={{ width: '100px' }}>
+          Cancel
+        </StyledButtonRadius100>
+        <StyledButtonRadius100 variant="contained" sx={{ width: '100px' }}>
+          Save
+        </StyledButtonRadius100>
       </Grid>
     </>
   );
