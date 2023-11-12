@@ -27,7 +27,7 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
   const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const truncatedAddress =
-    employee.address.street.length > 10 ? employee.address.street.slice(0, 10) + '...' : employee.address.street;
+    employee.address.street.length > 20 ? employee.address.street.slice(0, 20) + '...' : employee.address.street;
 
   return (
     <TableRow key={employee.id}>

@@ -1,12 +1,18 @@
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import fakeEmployees from './FakeEmployees.json';
 import { Employee } from '../models/Employee';
 import { EmployeeForm } from '../models/Employee';
+import { useQuery } from '@tanstack/react-query';
 
-export const getEmployees = async (): Promise<Employee[]> => {
-  const response: Employee[] = fakeEmployees;
-  return response;
+export const useGetEmployees = () => {
+  return useQuery<Employee[], []>({
+    queryKey: ['employees'],
+    queryFn: getEmployees,
+  });
+};
+
+export const getEmployees = async () => {
+  return await axios.get<Employee[]>(`http://localhost:8080/employees`).then((res) => res.data);
 };
 
 export const useAddNewEmployee = () => {

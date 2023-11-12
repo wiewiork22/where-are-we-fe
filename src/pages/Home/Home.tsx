@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../components/auth/AuthContext';
-import { useQuery } from '@tanstack/react-query';
-import { getEmployees } from '../../utils/api';
 import { Employee } from '../../models/Employee';
 import { Box, Card, Grid, Typography } from '@mui/material';
 import FilterEmployeeComponents from './components/EmployeeTable/FilterEmployeeComponents.tsx';
@@ -10,6 +8,7 @@ import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts'
 import AddIcon from '@mui/icons-material/Add';
 import AddEmployee from './components/EmployeeTable/AddEmployee.tsx';
 import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
+import { useGetEmployees } from '../../utils/api.ts';
 
 const ButtonStyle = {
   float: 'right',
@@ -21,16 +20,15 @@ const ButtonStyle = {
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const auth = useAuth();
-  const { data: employees, isSuccess } = useQuery(['employees'], () => getEmployees());
   const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
-  const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
+
+  const { data, isSuccess } = useGetEmployees();
 
   useEffect(() => {
-    setFilteredEmployees(employees ?? []);
-    setAllEmployees(employees ?? []);
-  }, [employees]);
+    setFilteredEmployees(data ?? []);
+  }, [data]);
 
   const handleModalOpenClick = () => {
     setIsModalOpen(true);
@@ -50,7 +48,7 @@ function Home() {
         </Grid>
         <Grid item sx={{ alignSelf: 'flex-end' }}>
           <FilterEmployeeComponents
-            employees={allEmployees}
+            employees={data ?? []}
             onFiltered={(filteredEmployees) => {
               setFilteredEmployees(filteredEmployees);
             }}
