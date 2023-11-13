@@ -50,5 +50,5 @@ export const useEditEmployee = () => {
 
 const editEmployee = async (employee: Employee) => {
   const { id, ...data } = employee;
-  return await axios.put<Employee>(`http://localhost:8080/employees/${id}`, data);
+  return await axios.put<EmployeeForm>(`http://localhost:8080/employees/${id}`, data);
 };

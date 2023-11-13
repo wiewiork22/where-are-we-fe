@@ -8,6 +8,7 @@ import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts'
 import AddIcon from '@mui/icons-material/Add';
 import AddEmployee from './components/EmployeeTable/AddEmployee.tsx';
 import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
+import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
 
 const ButtonStyle = {
@@ -29,6 +30,10 @@ function Home() {
   useEffect(() => {
     setFilteredEmployees(data ?? []);
   }, [data]);
+
+  useEffect(() => {
+    axiosConfig;
+  }, []);
 
   const handleModalOpenClick = () => {
     setIsModalOpen(true);

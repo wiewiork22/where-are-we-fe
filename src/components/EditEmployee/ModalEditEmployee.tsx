@@ -3,14 +3,14 @@ import { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from '@mui/material/Modal';
-import { Employee } from '../../models/Employee.ts';
+import { Employee, EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 type ModalEditEmployeeProps = {
   modalIsOpen: boolean;
   setModalIsOpen: (value: boolean) => void;
-  mutate: UseMutateFunction<AxiosResponse<Employee, undefined>, unknown, Employee, unknown>;
+  mutate: UseMutateFunction<AxiosResponse<EmployeeForm, undefined>, unknown, Employee, unknown>;
   showSnackbar: () => void;
   employee: Employee;
 };
@@ -155,7 +155,7 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
               Address
             </Typography>
             <TextField
-              value={employeeAddressData.streetAddress}
+              value={employeeAddressData.street}
               label="Street Address"
               variant={inputFieldVariant}
               sx={{ mb: 1 }}
