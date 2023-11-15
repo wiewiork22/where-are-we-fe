@@ -7,10 +7,11 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from '@mui/material/Modal';
-import { cityOptions, countryOptions, departmentOptions, positionOptions } from '../../utils/OptionLists';
+import { departmentOptions, positionOptions } from '../../utils/OptionLists';
 import { EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 type ModalAddEmployeeProps = {
   modalIsOpen: boolean;
@@ -49,10 +50,8 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     state: '',
     postCode: '',
     country: '',
-    lat_lng: {
-      lat: 0,
-      lng: 0,
-    },
+    lat: 0,
+    lng: 0,
   });
 
   const isFilled: boolean =
@@ -60,12 +59,12 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     Object.values(employeeAddressData).every((value) => value !== '');
   const resetAllFields = () => {
     setEmployeeData({ fullName: '', department: '', position: '', squad: '', email: '' });
-    setEmployeeAddressData({ street: '', city: '', state: '', postCode: '', country: '', lat_lng: { lat: 0, lng: 0 } });
+    setEmployeeAddressData({ street: '', city: '', state: '', postCode: '', country: '', lat: 0, lng: 0 });
+    setValue('');
   };
   const handleEmployeeChangeValue = (key: string, value: string) => {
     setEmployeeData((data) => ({ ...data, [key]: value }));
   };
-
   const handleAddressChangeValue = (key: string, value: string) => {
     setEmployeeAddressData((data) => ({ ...data, [key]: value }));
   };
@@ -87,6 +86,50 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     resetAllFields();
     props.setModalIsOpen(false);
   }
+
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      types: ['address'],
+      componentRestrictions: {
+        country: 'pl',
+      },
+      language: 'pl,en',
+    },
+  });
+
+  const handleSelect = async (address: string) => {
+    clearSuggestions();
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    const addressComponents = results[0].address_components;
+    setEmployeeAddressData((data) => ({ ...data, lat, lng }));
+    addressComponents.forEach((component) => {
+      switch (true) {
+        case component.types.includes('route'):
+          setValue(component.long_name, false);
+          setEmployeeAddressData((data) => ({ ...data, street: component.long_name }));
+          break;
+        case component.types.includes('locality'):
+          setEmployeeAddressData((data) => ({ ...data, city: component.long_name }));
+          break;
+        case component.types.includes('administrative_area_level_1'):
+          setEmployeeAddressData((data) => ({ ...data, state: component.long_name }));
+          break;
+        case component.types.includes('postal_code'):
+          setEmployeeAddressData((data) => ({ ...data, postCode: component.long_name }));
+          break;
+        case component.types.includes('country'):
+          setEmployeeAddressData((data) => ({ ...data, country: component.long_name }));
+          break;
+      }
+    });
+  };
 
   return (
     <>
@@ -188,46 +231,54 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
               <Typography sx={{ pt: 2, pb: 2 }} color="text.primary">
                 Address
               </Typography>
-              <TextField
-                value={employeeAddressData.street}
-                label="street"
-                variant={inputFieldVariant}
-                sx={{ mb: 1 }}
-                onChange={(e) => handleAddressChangeValue('street', e.target.value)}
-              />
+
+              <Box sx={{ position: 'relative' }}>
+                <TextField
+                  type="text"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  disabled={!ready}
+                  label="Street"
+                  fullWidth
+                />
+
+                {status === 'OK' && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      zIndex: 2000,
+                      backgroundColor: 'background.paper',
+                      width: '100%',
+                      color: 'text.primary',
+                    }}
+                  >
+                    {data.map(({ place_id, description }) => (
+                      <MenuItem key={place_id} onClick={() => handleSelect(description)}>
+                        {description}
+                      </MenuItem>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <FormControl fullWidth sx={{ mb: 1, mr: 1 }}>
-                  <InputLabel>Country</InputLabel>
-                  <Select
-                    value={employeeAddressData.country}
-                    variant={inputFieldVariant}
-                    label="Country"
-                    MenuProps={MenuProps}
-                    onChange={(e) => handleAddressChangeValue('country', e.target.value)}
-                  >
-                    {countryOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl fullWidth sx={{ mb: 1 }}>
-                  <InputLabel>City</InputLabel>
-                  <Select
-                    value={employeeAddressData.city}
-                    variant={inputFieldVariant}
-                    label="City"
-                    MenuProps={MenuProps}
-                    onChange={(e) => handleAddressChangeValue('city', e.target.value)}
-                  >
-                    {cityOptions.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <TextField
+                  fullWidth
+                  sx={{ mb: 1, mr: 1, mt: 1 }}
+                  value={employeeAddressData.country}
+                  variant={inputFieldVariant}
+                  label="Country"
+                  onChange={(e) => handleAddressChangeValue('country', e.target.value)}
+                />
+
+                <TextField
+                  fullWidth
+                  sx={{ mb: 1, mt: 1 }}
+                  value={employeeAddressData.city}
+                  variant={inputFieldVariant}
+                  label="City"
+                  onChange={(e) => handleAddressChangeValue('city', e.target.value)}
+                />
               </Box>
 
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>

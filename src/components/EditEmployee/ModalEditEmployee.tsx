@@ -1,11 +1,13 @@
 import { Box, TextField, Button, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from '@mui/material/Modal';
 import { Employee, EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import MenuItem from '@mui/material/MenuItem';
 
 type ModalEditEmployeeProps = {
   modalIsOpen: boolean;
@@ -65,6 +67,55 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
     resetAllFields();
     setModalIsOpen(false);
   }
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      types: ['address'],
+      componentRestrictions: {
+        country: 'pl',
+      },
+      language: 'pl,en',
+    },
+  });
+
+  const handleSelect = async (address: string) => {
+    clearSuggestions();
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    const addressComponents = results[0].address_components;
+    setEmployeeAddressData((data) => ({ ...data, lat, lng }));
+    addressComponents.forEach((component) => {
+      switch (true) {
+        case component.types.includes('route'):
+          setValue(component.long_name, false);
+          setEmployeeAddressData((data) => ({ ...data, street: component.long_name }));
+          break;
+        case component.types.includes('locality'):
+          setEmployeeAddressData((data) => ({ ...data, city: component.long_name }));
+          break;
+        case component.types.includes('administrative_area_level_1'):
+          setEmployeeAddressData((data) => ({ ...data, state: component.long_name }));
+          break;
+        case component.types.includes('postal_code'):
+          setEmployeeAddressData((data) => ({ ...data, postCode: component.long_name }));
+          break;
+        case component.types.includes('country'):
+          setEmployeeAddressData((data) => ({ ...data, country: component.long_name }));
+          break;
+      }
+    });
+  };
+
+  useEffect(() => {
+    setValue(employeeAddressData.street);
+  }, []);
+
+  const [shouldAutoComplete, setShouldAutoComplete] = useState(false);
 
   return (
     <Modal
@@ -154,14 +205,37 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
             <Typography color="text.primary" sx={{ pt: 2, pb: 2 }}>
               Address
             </Typography>
-            <TextField
-              value={employeeAddressData.street}
-              label="Street Address"
-              variant={inputFieldVariant}
-              sx={{ mb: 1 }}
-              onChange={(e) => handleAddressChangeValue('streetAddress', e.target.value)}
-            />
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ position: 'relative' }}>
+              <TextField
+                type="text"
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  setShouldAutoComplete(true);
+                }}
+                disabled={!ready}
+                label="Street"
+                fullWidth
+              />
+              {status === 'OK' && shouldAutoComplete && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    zIndex: 2000,
+                    backgroundColor: 'background.paper',
+                    width: '100%',
+                    color: 'text.primary',
+                  }}
+                >
+                  {data.map(({ place_id, description }) => (
+                    <MenuItem key={place_id} onClick={() => handleSelect(description)}>
+                      {description}
+                    </MenuItem>
+                  ))}
+                </Box>
+              )}
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1 }}>
               <TextField
                 fullWidth
                 value={employeeAddressData.country}

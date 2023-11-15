@@ -54,7 +54,7 @@ function EmployeeMarkers({ map, employees }: Props) {
           key={employee.id}
           map={map}
           markerTitle={employee.fullName}
-          position={employee.address.lat_lng}
+          position={{ lat: employee.address.lat, lng: employee.address.lng }}
           onMarkerCreated={(marker) => {
             markerToEmployeeMap.set(marker, employee);
             cluster.current.addMarker(marker);

@@ -4,7 +4,8 @@ export interface Address {
   state: string;
   postCode: string;
   country: string;
-  lat_lng: { lat: number; lng: number };
+  lat: number;
+  lng: number;
 }
 
 export interface EmployeeForm {
@@ -15,6 +16,7 @@ export interface EmployeeForm {
   address: Address;
   email: string;
 }
+
 export interface Employee extends EmployeeForm {
   id: string;
 }

@@ -10,6 +10,10 @@ import AddEmployee from './components/EmployeeTable/AddEmployee.tsx';
 import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
 import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
+import { useJsApiLoader } from '@react-google-maps/api';
+
+const apiKey = import.meta.env.VITE_MAP_API_KEY;
+const googleMapsLibraries = ['places'];
 
 const ButtonStyle = {
   float: 'right',
@@ -35,6 +39,12 @@ function Home() {
     axiosConfig;
   }, []);
 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: apiKey,
+    // @ts-ignore
+    libraries: googleMapsLibraries,
+  });
+
   const handleModalOpenClick = () => {
     setIsModalOpen(true);
   };
@@ -44,7 +54,7 @@ function Home() {
       <Grid container spacing={2} sx={{ display: 'flex', marginBottom: '50px' }}>
         <Grid item sx={{ flex: 1 }}>
           <Typography variant="h2" color="primary" style={{ marginBottom: '40px' }}>
-            Hello, Javokhir
+            Hello, Szymon 👋
           </Typography>
 
           <Typography paragraph color="text.primary">
@@ -65,20 +75,21 @@ function Home() {
         {isSuccess && EmployeeMap(filteredEmployees)}
       </Card>
 
-      <Box>
-        {isAdmin && (
+      {isAdmin && (
+        <Box>
           <StyledButtonRadius100
             variant="contained"
-            startIcon={<AddIcon />}
             sx={ButtonStyle}
             onClick={handleModalOpenClick}
+            disabled={!isLoaded}
+            startIcon={isLoaded && <AddIcon />}
           >
-            Add employee
+            {isLoaded ? 'Add employee' : 'Loading...'}
           </StyledButtonRadius100>
-        )}
-        <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        {isSuccess && <EmployeeTable employees={filteredEmployees} />}
-      </Box>
+          {isLoaded && <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+        </Box>
+      )}
+      {isSuccess && isLoaded && <EmployeeTable employees={filteredEmployees} />}
     </>
   );
 }
