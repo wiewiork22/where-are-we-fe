@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { Employee, EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
+import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -118,15 +119,7 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
   const [shouldAutoComplete, setShouldAutoComplete] = useState(false);
 
   return (
-    <Modal
-      open={modalIsOpen}
-      onClose={closeModal}
-      sx={{
-        margin: 'auto',
-        padding: 5,
-        width: '80vw',
-      }}
-    >
+    <Modal open={modalIsOpen} onClose={closeModal} sx={customModalStyle}>
       <Box sx={{ backgroundColor: 'background.paper', display: 'flex', flexDirection: 'column', p: 1 }}>
         <Box sx={{ pl: 4, display: 'flex', flexDirection: 'column' }}>
           <Button
@@ -171,7 +164,6 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
                 value={employeeData.email}
                 label="Email"
                 variant={inputFieldVariant}
-                sx={{ mr: 1 }}
                 onChange={(e) => handleEmployeeChangeValue('email', e.target.value)}
               />
             </Box>

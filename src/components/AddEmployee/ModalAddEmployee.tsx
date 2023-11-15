@@ -11,6 +11,7 @@ import { departmentOptions, positionOptions } from '../../utils/OptionLists';
 import { EmployeeForm } from '../../models/Employee.ts';
 import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
+import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 type ModalAddEmployeeProps = {
@@ -19,12 +20,6 @@ type ModalAddEmployeeProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: UseMutateFunction<AxiosResponse<any, any>, unknown, EmployeeForm, unknown>;
   showSnackbar: () => void;
-};
-
-const customStyles = {
-  margin: 'auto',
-  padding: 5,
-  width: '80vw',
 };
 
 const MenuProps = {
@@ -133,7 +128,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
 
   return (
     <>
-      <Modal open={props.modalIsOpen} onClose={closeModal} sx={customStyles}>
+      <Modal open={props.modalIsOpen} onClose={closeModal} sx={customModalStyle}>
         <Box sx={{ backgroundColor: 'background.paper', display: 'flex', flexDirection: 'column', p: 1 }}>
           <Box sx={{ pl: 4, display: 'flex', flexDirection: 'column' }}>
             <Button
@@ -170,21 +165,24 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                 pr: 4,
               }}
             >
-              <TextField
-                value={employeeData.fullName}
-                label="Full name"
-                variant={inputFieldVariant}
-                sx={{ mb: 1 }}
-                onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
-              />
+              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <TextField
+                  fullWidth
+                  value={employeeData.fullName}
+                  label="Full name"
+                  variant={inputFieldVariant}
+                  sx={{ mb: 1, mr: 1 }}
+                  onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
+                />
 
-              <TextField
-                value={employeeData.email}
-                label="email"
-                variant={inputFieldVariant}
-                sx={{ mb: 1 }}
-                onChange={(e) => handleEmployeeChangeValue('email', e.target.value)}
-              />
+                <TextField
+                  fullWidth
+                  value={employeeData.email}
+                  label="Email"
+                  variant={inputFieldVariant}
+                  onChange={(e) => handleEmployeeChangeValue('email', e.target.value)}
+                />
+              </Box>
 
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <FormControl fullWidth sx={{ mr: 1 }}>
