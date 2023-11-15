@@ -1,9 +1,10 @@
-import { TableRow, TableCell, styled } from '@mui/material';
+import { TableCell, styled } from '@mui/material';
 import { Employee } from '../../../../models/Employee';
 import { useAuth } from '../../../../components/auth/AuthContext.tsx';
 import { useTheme } from '@mui/material/styles';
 import DeleteEmployee from '../DeleteEmployee.tsx';
 import EditEmployee from './EditEmployee.tsx';
+import { motion } from 'framer-motion';
 
 const sharedStyles = {
   field: {
@@ -30,7 +31,13 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
     employee.address.street.length > 20 ? employee.address.street.slice(0, 20) + '...' : employee.address.street;
 
   return (
-    <TableRow key={employee.id}>
+    <motion.tr
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3 }}
+      layout
+    >
       <TableCell>
         <StyledFullName style={{ color: primaryColor }}>{employee.fullName}</StyledFullName> <br />
         <StyledField>{employee.position}</StyledField>
@@ -44,7 +51,7 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
           <DeleteEmployee employeeId={employee.id} employeeFullName={employee.fullName} />
         </StyledFieldTableCell>
       )}
-    </TableRow>
+    </motion.tr>
   );
 }
 
