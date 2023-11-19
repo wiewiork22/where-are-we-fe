@@ -89,14 +89,14 @@ export default function NavBar(props: NavbarProps) {
             }}
           >
             <img
-              src="src/images/logo.png"
+              src="src/images/LogoCognizant.png"
               alt="logo"
-              style={{ maxHeight: '100%', maxWidth: '100%', verticalAlign: 'middle', margin: 'auto' }}
+              style={{ maxHeight: '100%', maxWidth: '100%', verticalAlign: 'middle' }}
             />
           </Box>
 
           <Box sx={{ pl: 3, display: { xs: 'none', md: 'flex' } }}>
-            <AnimatedText text="DevBridge" />
+            <AnimatedText text="Cognizant" />
           </Box>
           <DarkModeSwitch
             sx={{ felxGrow: 0, ml: 'auto', mr: 2 }}

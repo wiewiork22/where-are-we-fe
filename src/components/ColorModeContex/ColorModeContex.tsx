@@ -1,4 +1,4 @@
-import { amber, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 
@@ -38,11 +38,11 @@ export const ColorModeProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         palette: {
           mode,
           primary: {
-            main: '#ff4d00',
+            main: mode === 'light' ? '#1C4997' : '#35C3CF',
             contrastText: '#fff',
           },
           secondary: {
-            main: amber[500],
+            main: mode === 'light' ? '#35C3CF' : '#1C4997',
             contrastText: '#fff',
           },
           background: {
