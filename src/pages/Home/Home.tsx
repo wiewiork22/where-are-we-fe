@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../components/auth/AuthContext';
 import { Employee } from '../../models/Employee';
-import { Box, Card, Grid, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import FilterEmployeeComponents from './components/EmployeeTable/FilterEmployeeComponents.tsx';
 import EmployeeMap from './components/EmployeeMap/EmployeeMap.tsx';
 import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts';
@@ -11,6 +11,7 @@ import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
 import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
 import { useJsApiLoader } from '@react-google-maps/api';
+import DesignConversationImage from '../../images/undraw_conversation_re_c26v.svg';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
 const googleMapsLibraries = ['places'];
@@ -20,6 +21,7 @@ const ButtonStyle = {
   p: 1,
   pr: 3,
   pl: 3,
+  mb: 3,
 };
 
 function Home() {
@@ -51,30 +53,29 @@ function Home() {
 
   return (
     <>
-      <Grid container spacing={2} sx={{ display: 'flex', marginBottom: '50px' }}>
-        <Grid item sx={{ flex: 1 }}>
-          <Typography variant="h2" color="primary" style={{ marginBottom: '40px' }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Box>
+          <Typography variant="h2" color="primary" sx={{ marginRight: '20px' }}>
             Hello, Szymon 👋
           </Typography>
-
           <Typography paragraph color="text.primary">
-            Discover, connect and communicate with your colleagues nearby
+            Discover, connect and communicate with your colleagues nearby.
           </Typography>
-        </Grid>
-        <Grid item sx={{ alignSelf: 'flex-end' }}>
           <FilterEmployeeComponents
             employees={data ?? []}
             onFiltered={(filteredEmployees) => {
               setFilteredEmployees(filteredEmployees);
             }}
           />
-        </Grid>
-      </Grid>
+        </Box>
+        <Box sx={{ maxWidth: '250px', maxHeight: '250px', overflow: 'hidden', ml: 'auto', mb: 3 }}>
+          <img src={DesignConversationImage} alt="conversation" style={{ width: '100%' }} />
+        </Box>
+      </Box>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
         {isSuccess && EmployeeMap(filteredEmployees)}
       </Card>
-
       {isAdmin && (
         <Box>
           <StyledButtonRadius100
@@ -89,6 +90,7 @@ function Home() {
           {isLoaded && <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
         </Box>
       )}
+      <Typography color="text.primary"> Click on table header to sort. </Typography>
       {isSuccess && isLoaded && <EmployeeTable employees={filteredEmployees} />}
     </>
   );

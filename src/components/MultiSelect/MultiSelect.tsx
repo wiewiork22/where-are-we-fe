@@ -11,7 +11,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      width: 220,
     },
   },
 };
@@ -50,7 +50,7 @@ function MultipleSelect({ label, items, onFilterChanged }: Props) {
   };
 
   return (
-    <FormControl sx={{ m: 1, width: 300 }}>
+    <FormControl sx={{ m: 1, width: 220 }}>
       <InputLabel id={label}>{label}</InputLabel>
       <Select
         labelId={label}
