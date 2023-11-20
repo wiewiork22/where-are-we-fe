@@ -6,6 +6,7 @@ import { useAddNewEmployee } from '../../../../utils/api.ts';
 type AddEmployeeProps = {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  refreshData: () => void;
 };
 
 function AddEmployee(props: AddEmployeeProps) {
@@ -20,6 +21,7 @@ function AddEmployee(props: AddEmployeeProps) {
         setModalIsOpen={props.setIsModalOpen}
         mutate={mutateAddEmployee}
         showSnackbar={() => setShowSnackbar(true)}
+        refreshData={props.refreshData}
       />
       <CustomSnackbar
         open={showSnackbar}

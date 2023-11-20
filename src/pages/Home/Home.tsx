@@ -16,6 +16,8 @@ import DesignConversationImage from '../../images/undraw_conversation_re_c26v.sv
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
 const googleMapsLibraries = ['places', 'marker', 'core'];
 
+axiosConfig;
+
 const ButtonStyle = {
   float: 'right',
   p: 1,
@@ -31,15 +33,11 @@ function Home() {
 
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
 
-  const { data, isSuccess } = useGetEmployees();
+  const { data, isSuccess, refetch } = useGetEmployees();
 
   useEffect(() => {
     setFilteredEmployees(data ?? []);
   }, [data]);
-
-  useEffect(() => {
-    axiosConfig;
-  }, []);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: apiKey,
@@ -87,11 +85,10 @@ function Home() {
           >
             {isLoaded ? 'Add employee' : 'Loading...'}
           </StyledButtonRadius100>
-          {isLoaded && <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+          {isLoaded && <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refreshData={refetch} />}
         </Box>
       )}
-      <Typography color="text.primary"> Click on table header to sort. </Typography>
-      {isSuccess && isLoaded && <EmployeeTable employees={filteredEmployees} />}
+      {isSuccess && isLoaded && <EmployeeTable employees={filteredEmployees} refreshData={refetch} />}
     </>
   );
 }

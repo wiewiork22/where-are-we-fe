@@ -16,7 +16,7 @@ const EditButtonStyle = {
   },
 };
 
-function EditEmployee({ employee }: { employee: Employee }) {
+function EditEmployee({ employee, refreshData }: { employee: Employee; refreshData: () => void }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { mutate: mutateEditEmployee, isSuccess } = useEditEmployee();
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -32,6 +32,7 @@ function EditEmployee({ employee }: { employee: Employee }) {
         mutate={mutateEditEmployee}
         showSnackbar={() => setShowSnackbar(true)}
         employee={employee}
+        refreshData={refreshData}
       />
       <CustomSnackbar
         open={showSnackbar}

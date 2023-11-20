@@ -21,7 +21,7 @@ const StyledFullName = styled('span')(sharedStyles.fullName);
 
 const StyledField = styled('span')(sharedStyles.field);
 
-function EmployeeTableRow({ employee }: { employee: Employee }) {
+function EmployeeTableRow({ employee, refreshData }: { employee: Employee; refreshData: () => void }) {
   const auth = useAuth();
   const theme = useTheme();
   const primaryColor = theme.palette.primary.main;
@@ -47,8 +47,8 @@ function EmployeeTableRow({ employee }: { employee: Employee }) {
       <StyledFieldTableCell>{truncatedAddress}</StyledFieldTableCell>
       {isAdmin && (
         <StyledFieldTableCell>
-          <EditEmployee employee={employee} />
-          <DeleteEmployee employeeId={employee.id} employeeFullName={employee.fullName} />
+          <EditEmployee employee={employee} refreshData={refreshData} />
+          <DeleteEmployee employeeId={employee.id} employeeFullName={employee.fullName} refreshData={refreshData} />
         </StyledFieldTableCell>
       )}
     </motion.tr>

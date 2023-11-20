@@ -16,11 +16,19 @@ type ModalEditEmployeeProps = {
   mutate: UseMutateFunction<AxiosResponse<EmployeeForm, undefined>, unknown, Employee, unknown>;
   showSnackbar: () => void;
   employee: Employee;
+  refreshData: () => void;
 };
 
 const inputFieldVariant = 'outlined';
 
-function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, employee }: ModalEditEmployeeProps) {
+function ModalEditEmployee({
+  modalIsOpen,
+  setModalIsOpen,
+  mutate,
+  showSnackbar,
+  employee,
+  refreshData,
+}: ModalEditEmployeeProps) {
   const [employeeData, setEmployeeData] = useState({
     fullName: employee.fullName,
     department: employee.department,
@@ -56,6 +64,7 @@ function ModalEditEmployee({ modalIsOpen, setModalIsOpen, mutate, showSnackbar, 
     mutate(editedEmployee, {
       onSuccess: () => {
         showSnackbar();
+        refreshData();
         closeModal();
       },
       onError: () => {

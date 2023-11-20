@@ -17,6 +17,7 @@ import CustomSnackbar from '../../../components/snackbars/CustomSnackbar';
 type DeleteEmployeeProps = {
   employeeId: string;
   employeeFullName: string;
+  refreshData: () => void;
 };
 
 function DeleteEmployee(deleteEmployeeProps: DeleteEmployeeProps) {
@@ -29,6 +30,7 @@ function DeleteEmployee(deleteEmployeeProps: DeleteEmployeeProps) {
     mutate(deleteEmployeeProps.employeeId, {
       onSuccess: () => {
         setShowSnackbar(true);
+        deleteEmployeeProps.refreshData();
       },
       onError: () => {
         setShowSnackbar(true);

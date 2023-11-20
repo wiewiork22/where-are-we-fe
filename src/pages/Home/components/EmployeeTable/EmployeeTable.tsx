@@ -27,7 +27,7 @@ const sharedStyles = {
 
 const StyledTableHeader = styled(TableCell)(sharedStyles.field);
 
-function EmployeeTable({ employees }: { employees: Employee[] }) {
+function EmployeeTable({ employees, refreshData }: { employees: Employee[]; refreshData: () => void }) {
   const [sort, setSort] = useState({ keyToSort: 'id', direction: 'ASC' });
   const auth = useAuth();
   const columnNames = [
@@ -128,7 +128,7 @@ function EmployeeTable({ employees }: { employees: Employee[] }) {
         <AnimatePresence>
           <TableBody>
             {getSortedEmployees().map((employee) => (
-              <EmployeeTableRow employee={employee} key={employee.id} />
+              <EmployeeTableRow employee={employee} key={employee.id} refreshData={refreshData} />
             ))}
           </TableBody>
         </AnimatePresence>

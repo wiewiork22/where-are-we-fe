@@ -20,6 +20,7 @@ type ModalAddEmployeeProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutate: UseMutateFunction<AxiosResponse<any, any>, unknown, EmployeeForm, unknown>;
   showSnackbar: () => void;
+  refreshData: () => void;
 };
 
 const MenuProps = {
@@ -69,6 +70,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     props.mutate(newEmployee, {
       onSuccess: () => {
         props.showSnackbar();
+        props.refreshData();
         closeModal();
       },
       onError: () => {
