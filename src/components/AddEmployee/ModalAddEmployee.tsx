@@ -1,5 +1,5 @@
 import { Box, TextField, Button, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -13,6 +13,7 @@ import { AxiosResponse } from 'axios';
 import { UseMutateFunction } from '@tanstack/react-query';
 import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { emailRegex, fullNameRegex } from '../../utils/Regex';
 
 type ModalAddEmployeeProps = {
   modalIsOpen: boolean;
@@ -32,6 +33,8 @@ const MenuProps = {
 };
 const inputFieldVariant = 'outlined';
 
+
+
 function ModalAddEmployee(props: ModalAddEmployeeProps) {
   const [employeeData, setEmployeeData] = useState({
     fullName: '',
@@ -49,6 +52,25 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     lat: 0,
     lng: 0,
   });
+  const [emailError, setEmailError] = useState('');
+  const [fullNameError, setFullNameError] = useState('');
+  const [isCorrect , setIsCorrect] = useState(false);
+
+  useEffect(() => {
+    if (emailRegex.test(employeeData.email)) {
+      setEmailError('');
+    }
+  }, [employeeData.email]);
+
+  useEffect(() => {
+    if (fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('');
+    }
+  }, [employeeData.fullName]);
+  useEffect(() => {
+    setIsCorrect(isFilled&&(emailError==='')&&(fullNameError===''));
+
+  }, [employeeData, employeeAddressData]);
 
   const isFilled: boolean =
     Object.values(employeeData).every((value) => value !== '') &&
@@ -64,6 +86,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
   const handleAddressChangeValue = (key: string, value: string) => {
     setEmployeeAddressData((data) => ({ ...data, [key]: value }));
   };
+
 
   const handleAddNewEmployeeClick = () => {
     const newEmployee: EmployeeForm = { ...employeeData, address: { ...employeeAddressData } };
@@ -82,6 +105,8 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
   function closeModal() {
     resetAllFields();
     props.setModalIsOpen(false);
+    setFullNameError('');
+    setEmailError('');
   }
 
   const {
@@ -99,6 +124,25 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
       language: 'pl,en',
     },
   });
+
+  const handleFullNameBlur=()=>{
+
+    if (!fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('Enter name and surname');
+    } else {
+      setFullNameError('');
+    }
+  }
+
+
+  const handleEmailBlur = () => {
+
+    if (!emailRegex.test(employeeData.email)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  }
 
   const handleSelect = async (address: string) => {
     clearSuggestions();
@@ -175,6 +219,9 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                   variant={inputFieldVariant}
                   sx={{ mb: 1, mr: 1 }}
                   onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
+                  onBlur={handleFullNameBlur}
+                  error={Boolean(fullNameError)}
+                  helperText={fullNameError}
                 />
 
                 <TextField
@@ -183,6 +230,9 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                   label="Email"
                   variant={inputFieldVariant}
                   onChange={(e) => handleEmployeeChangeValue('email', e.target.value)}
+                  onBlur={handleEmailBlur}
+                  error={Boolean(emailError)}
+                  helperText={emailError}
                 />
               </Box>
 
@@ -298,7 +348,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                   onChange={(e) => handleAddressChangeValue('postCode', e.target.value)}
                 />
               </Box>
-              <Button variant="contained" disabled={!isFilled} sx={{ p: 2, mt: 1 }} onClick={handleAddNewEmployeeClick}>
+              <Button variant="contained" disabled={!isCorrect} sx={{ p: 2, mt: 1 }} onClick={handleAddNewEmployeeClick}>
                 Add Employee
               </Button>
             </Box>

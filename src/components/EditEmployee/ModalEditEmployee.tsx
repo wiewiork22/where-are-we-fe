@@ -9,6 +9,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import MenuItem from '@mui/material/MenuItem';
+import { fullNameRegex } from '../../utils/Regex';
 
 type ModalEditEmployeeProps = {
   modalIsOpen: boolean;
@@ -37,6 +38,20 @@ function ModalEditEmployee({
     email: employee.email,
   });
   const [employeeAddressData, setEmployeeAddressData] = useState(employee.address);
+  const [fullNameError, setFullNameError] = useState('');
+  const [isCorrect , setIsCorrect] = useState(true);
+
+
+  useEffect(() => {
+    if (fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('');
+    }
+  }, [employeeData.fullName]);
+
+  useEffect(() => {
+    setIsCorrect(isFilled&&(fullNameError===''));
+
+  }, [employeeData, employeeAddressData]);
 
   const isFilled: boolean =
     Object.values(employeeData).every((value) => value !== '') &&
@@ -76,6 +91,7 @@ function ModalEditEmployee({
   function closeModal() {
     resetAllFields();
     setModalIsOpen(false);
+    setFullNameError('');
   }
   const {
     ready,
@@ -120,6 +136,16 @@ function ModalEditEmployee({
       }
     });
   };
+
+  const handleFullNameBlur=()=>{
+
+    if (!fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('Enter name and surname');
+    } else {
+      setFullNameError('');
+    }
+  }
+
 
   useEffect(() => {
     setValue(employeeAddressData.street);
@@ -166,6 +192,9 @@ function ModalEditEmployee({
                 variant={inputFieldVariant}
                 sx={{ mb: 1, mr: 1 }}
                 onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
+                onBlur={handleFullNameBlur}
+                error={Boolean(fullNameError)}
+                helperText={fullNameError}
               />
               <TextField
                 disabled
@@ -272,7 +301,7 @@ function ModalEditEmployee({
                 onChange={(e) => handleAddressChangeValue('postCode', e.target.value)}
               />
             </Box>
-            <Button variant="contained" disabled={!isFilled} sx={{ p: 2, mt: 1 }} onClick={handleEditEmployeeClick}>
+            <Button variant="contained" disabled={!isCorrect} sx={{ p: 2, mt: 1 }} onClick={handleEditEmployeeClick}>
               Save
             </Button>
           </Box>

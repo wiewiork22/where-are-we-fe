@@ -72,7 +72,6 @@ function Home() {
       </Box>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
-        {isSuccess && isLoaded && EmployeeMap(filteredEmployees)}
       </Card>
       {isAdmin && (
         <Box>
