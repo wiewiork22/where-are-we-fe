@@ -14,7 +14,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import DesignConversationImage from '../../images/undraw_conversation_re_c26v.svg';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
-const googleMapsLibraries = ['places'];
+const googleMapsLibraries = ['places', 'marker', 'core'];
 
 const ButtonStyle = {
   float: 'right',
@@ -74,7 +74,7 @@ function Home() {
       </Box>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
-        {isSuccess && EmployeeMap(filteredEmployees)}
+        {isSuccess && isLoaded && EmployeeMap(filteredEmployees)}
       </Card>
       {isAdmin && (
         <Box>

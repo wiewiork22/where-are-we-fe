@@ -17,29 +17,27 @@ function Marker(props: MarkerComponentProps) {
   const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
   useEffect(() => {
-    if (window.google && window.google.maps) {
-      if (!rootRef.current) {
-        const container = document.createElement('div');
+    if (!rootRef.current) {
+      const container = document.createElement('div');
 
-        rootRef.current = createRoot(container);
+      rootRef.current = createRoot(container);
 
-        markerRef.current = new window.google.maps.marker.AdvancedMarkerElement({
-          map: props.map,
-          position: props.position,
-          content: container,
-          title: props.markerTitle,
-        });
+      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
+        map: props.map,
+        position: props.position,
+        content: container,
+        title: props.markerTitle,
+      });
 
-        props.onMarkerCreated(markerRef.current);
+      props.onMarkerCreated(markerRef.current);
 
-        return () => {
-          if (markerRef.current) {
-            markerRef.current.map = null;
-          }
-        };
-      }
+      return () => {
+        if (markerRef.current) {
+          markerRef.current.map = null;
+        }
+      };
     }
-  }, [props.map, props.position, props.markerTitle, props.onMarkerCreated]);
+  }, []);
 
   useEffect(() => {
     rootRef.current?.render(props.children);

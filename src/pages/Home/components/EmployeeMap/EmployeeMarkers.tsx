@@ -27,7 +27,7 @@ function EmployeeMarkers({ map, employees }: Props) {
 
     ReactDOM.hydrateRoot(container, EmployeeListPopup(employees));
 
-    const infoWindow = new window.google.maps.InfoWindow({ content: container });
+    const infoWindow = new google.maps.InfoWindow({ content: container });
 
     infoWindow.setPosition(event.latLng);
 

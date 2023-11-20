@@ -15,7 +15,7 @@ function GoogleMapComponent({ mapOptions, employees }: Props) {
 
   useEffect(() => {
     if (ref.current) {
-      setMap(new window.google.maps.Map(ref.current, mapOptions));
+      setMap(new google.maps.Map(ref.current, mapOptions));
     }
   }, []);
 
