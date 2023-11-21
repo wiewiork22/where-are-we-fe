@@ -13,9 +13,11 @@ import { useGetEmployees } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import { useJsApiLoader } from '@react-google-maps/api';
 import DesignConversationImage from '../../images/undraw_conversation_re_c26v.svg';
+import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
+import { Library } from '@googlemaps/js-api-loader';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
-const googleMapsLibraries = ['places', 'marker', 'core'];
+const googleMapsLibraries: Library[] = ['places', 'marker', 'core'];
 
 axiosConfig;
 
@@ -45,12 +47,11 @@ function Home() {
   }, []);
 
   const firstName = data
-    ?.find((x) => x.id === jwtDecode(localStorage.getItem('token') ?? '').id)
+    ?.find((x) => x.id === (jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload).id)
     ?.fullName.split(' ')[0];
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: apiKey,
-    // @ts-ignore
     libraries: googleMapsLibraries,
   });
 

@@ -13,6 +13,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/routes.ts';
 import { Navigate } from 'react-router';
+import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
 
 const TextFieldInputProps = {
   style: { borderRadius: 8 },
@@ -60,7 +61,7 @@ function LoginPage() {
         {
           onSuccess: (token) => {
             localStorage.setItem('token', token);
-            const decodedToken = jwtDecode(token);
+            const decodedToken = jwtDecode(token) as CustomJwtPayload;
             const sub = decodedToken.sub;
             const authorities = decodedToken.authorities;
             const roleArray = authorities.map((authority: { authority: string }) => authority.authority);

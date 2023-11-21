@@ -9,6 +9,7 @@ import { Employee } from '../../models/Employee.ts';
 import { useEditEmployee, useGetEmployeeById } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import CustomSnackbar from '../../components/snackbars/CustomSnackbar.tsx';
+import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
 
 const inputFieldVariant = 'outlined';
 const emptyEmployee: Employee = {
@@ -33,7 +34,7 @@ function MyProfile() {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployee);
 
-  const decodedToken = jwtDecode(localStorage.getItem('token') ?? '');
+  const decodedToken = jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload;
 
   const { data, isLoading } = useGetEmployeeById(decodedToken.id);
   const { mutate: mutateEditEmployee, isSuccess } = useEditEmployee();

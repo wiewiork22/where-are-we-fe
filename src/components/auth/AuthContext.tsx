@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import CustomJwtPayload from '../../utils/CustomJwtPayload';
 
 const AuthContext = createContext<
   | {
@@ -34,7 +35,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
     if (token === 'token') {
       logIn('ADMIN', ['ADMIN']);
     } else if (token) {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode(token) as CustomJwtPayload;
       const sub = decodedToken.sub;
       const authorities = decodedToken.authorities;
       const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
