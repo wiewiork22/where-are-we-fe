@@ -15,6 +15,17 @@ export const getEmployees = async () => {
   return await axios.get<Employee[]>(`http://localhost:8080/employees`).then((res) => res.data);
 };
 
+export const useGetEmployeeById = (id: string) => {
+  return useQuery<Employee, []>({
+    queryKey: ['employees', id],
+    queryFn: () => getEmployeeById(id),
+  });
+};
+
+export const getEmployeeById = async (id: string) => {
+  return await axios.get<Employee>(`http://localhost:8080/employees/${id}`).then((res) => res.data);
+};
+
 export const useAddNewEmployee = () => {
   return useMutation(addNewEmployee);
 };

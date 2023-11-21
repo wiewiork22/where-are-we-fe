@@ -10,6 +10,7 @@ import AddEmployee from './components/EmployeeTable/AddEmployee.tsx';
 import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
 import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
+import { jwtDecode } from 'jwt-decode';
 import { useJsApiLoader } from '@react-google-maps/api';
 import DesignConversationImage from '../../images/undraw_conversation_re_c26v.svg';
 
@@ -39,6 +40,14 @@ function Home() {
     setFilteredEmployees(data ?? []);
   }, [data]);
 
+  useEffect(() => {
+    axiosConfig;
+  }, []);
+
+  const firstName = data
+    ?.find((x) => x.id === jwtDecode(localStorage.getItem('token') ?? '').id)
+    ?.fullName.split(' ')[0];
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: apiKey,
     // @ts-ignore
@@ -54,7 +63,7 @@ function Home() {
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <Box>
           <Typography variant="h2" color="primary" sx={{ marginRight: '20px' }}>
-            Hello, Szymon 👋
+            Hello, {firstName} 👋
           </Typography>
           <Typography paragraph color="text.primary">
             Discover, connect and communicate with your colleagues nearby.
@@ -72,6 +81,7 @@ function Home() {
       </Box>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
+        {isSuccess && isLoaded && EmployeeMap(filteredEmployees)}
       </Card>
       {isAdmin && (
         <Box>
