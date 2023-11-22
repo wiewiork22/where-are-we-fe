@@ -1,34 +1,20 @@
-# Stage 1: Build the React app
-FROM node:alpine as builder
+FROM node:18-alpine AS builder
 
-# Copy the package.json and package-lock.json to install dependencies
-COPY package.json package-lock.json ./
+WORKDIR /app
 
-# Install the dependencies
-RUN npm install
+COPY package.json .
+COPY package-lock.json .
 
-# Create a directory for the app
-WORKDIR /react-ui
-
-# Copy the app source code
+RUN npm ci
 COPY . .
 
-# Build the project
 RUN npm run build
 
+FROM nginx:1.25.2-alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/cache-headers.conf /etc/nginx/conf.d/cache-headers.conf
+COPY nginx/nocache-headers.conf /etc/nginx/conf.d/nocache-headers.conf
+COPY nginx/security-headers.conf /etc/nginx/conf.d/security-headers.conf
 
-
-# Stage 2: Serve the app using Nginx
-FROM nginx:alpine
-
-# Remove the default nginx index page
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy the built app from the build stage to the nginx directory
-COPY --from=builder /react-ui/dist /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 5173
