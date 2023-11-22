@@ -12,7 +12,7 @@ import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import { useJsApiLoader } from '@react-google-maps/api';
-import DesignConversationImage from '../../images/undraw_conversation_re_c26v.svg';
+import DesignConversationImage from '../../assets/conversation.svg';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
 import { Library } from '@googlemaps/js-api-loader';
 

@@ -89,7 +89,7 @@ export default function NavBar(props: NavbarProps) {
             }}
           >
             <img
-              src="src/images/LogoCognizant.png"
+              src="/LogoCognizant.png"
               alt="logo"
               style={{ maxHeight: '100%', maxWidth: '100%', verticalAlign: 'middle' }}
             />

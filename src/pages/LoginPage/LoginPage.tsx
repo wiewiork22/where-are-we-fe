@@ -93,7 +93,7 @@ function LoginPage() {
             autoPlay
             loop
             muted
-            src="src/videos/loginVideo.mp4"
+            src="/loginVideo.mp4"
             style={{
               objectFit: 'cover',
               height: '100%',
