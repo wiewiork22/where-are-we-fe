@@ -33,7 +33,7 @@ function EmployeeTable({ employees, refreshData }: { employees: Employee[]; refr
     { header: 'Full name', value: 'fullName' },
     { header: 'Department', value: 'department' },
     { header: 'Squad', value: 'squad' },
-    { header: 'Location', value: 'address.street' },
+    { header: 'Location', value: 'address.city' },
   ];
 
   function handleHeaderClick(value: keyof Employee) {

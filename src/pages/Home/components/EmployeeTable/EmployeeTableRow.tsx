@@ -28,7 +28,7 @@ function EmployeeTableRow({ employee, refreshData }: { employee: Employee; refre
   const isAdmin = auth?.userRoles.includes('ADMIN');
 
   const truncatedAddress =
-    employee.address.street.length > 20 ? employee.address.street.slice(0, 20) + '...' : employee.address.street;
+    employee.address.city.length > 20 ? employee.address.city.slice(0, 20) + '...' : employee.address.city;
 
   return (
     <motion.tr
