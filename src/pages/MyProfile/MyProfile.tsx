@@ -10,6 +10,9 @@ import { useEditEmployee, useGetEmployeeById } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import CustomSnackbar from '../../components/snackbars/CustomSnackbar.tsx';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
+import { fullNameRegex } from '../../utils/Regex';
+import HttpErrors from '../../utils/HttpErrors.ts';
+import { AxiosError } from 'axios';
 
 const inputFieldVariant = 'outlined';
 const emptyEmployee: Employee = {
@@ -33,11 +36,27 @@ const emptyEmployee: Employee = {
 function MyProfile() {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployee);
+  const [fullNameError, setFullNameError] = useState('');
+  const [isCorrect, setIsCorrect] = useState(true);
+
+  useEffect(() => {
+    if (fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('');
+    }
+  }, [employeeData.fullName]);
+
+  const isFilled: boolean =
+    Object.values(employeeData).every((value) => value !== '') &&
+    Object.values(employeeData.address).every((value) => value !== '');
+
+  useEffect(() => {
+    setIsCorrect(isFilled && fullNameError === '');
+  }, [employeeData, fullNameError, isFilled]);
 
   const decodedToken = jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload;
 
   const { data, isLoading } = useGetEmployeeById(decodedToken.id);
-  const { mutate: mutateEditEmployee, isSuccess } = useEditEmployee();
+  const { mutate: mutateEditEmployee, isSuccess, isError, error } = useEditEmployee();
 
   useEffect(() => {
     setEmployeeData(data ?? emptyEmployee);
@@ -60,6 +79,22 @@ function MyProfile() {
         setShowSnackbar(true);
       },
     });
+  };
+  const handleFullNameBlur = () => {
+    if (!fullNameRegex.test(employeeData.fullName)) {
+      setFullNameError('Enter name and surname');
+    } else {
+      setFullNameError('');
+    }
+  };
+
+  const getEditErrorMessage = (error: string) => {
+    switch (error) {
+      case HttpErrors.Network:
+        return 'Cannot connect to server';
+      default:
+        return 'Cannot edit employee';
+    }
   };
 
   return (
@@ -92,6 +127,9 @@ function MyProfile() {
                 fullWidth
                 sx={{ mb: 1, mr: 1 }}
                 onChange={(e) => handleEmployeeChangeValue('fullName', e.target.value)}
+                onBlur={handleFullNameBlur}
+                error={Boolean(fullNameError)}
+                helperText={fullNameError}
                 value={employeeData?.fullName}
               />
               <TextField
@@ -185,7 +223,12 @@ function MyProfile() {
               >
                 Cancel
               </StyledButtonRadius100>
-              <StyledButtonRadius100 variant="contained" sx={{ width: '100px' }} onClick={handleSaveEmployeeClick}>
+              <StyledButtonRadius100
+                variant="contained"
+                disabled={!isCorrect}
+                sx={{ width: '100px' }}
+                onClick={handleSaveEmployeeClick}
+              >
                 Save
               </StyledButtonRadius100>
             </Grid>
@@ -198,7 +241,9 @@ function MyProfile() {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         status={isSuccess ? 'success' : 'error'}
-        message={isSuccess ? 'Employee details updated' : 'Error updating employee details'}
+        message={
+          isSuccess ? 'Employee details updated' : isError ? getEditErrorMessage((error as AxiosError).code ?? '') : ''
+        }
       />
     </Box>
   );

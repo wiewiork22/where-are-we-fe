@@ -13,6 +13,8 @@ import {
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDeleteEmployee } from '../../../utils/api';
 import CustomSnackbar from '../../../components/snackbars/CustomSnackbar';
+import { AxiosError } from 'axios';
+import HttpErrors from '../../../utils/HttpErrors';
 
 type DeleteEmployeeProps = {
   employeeId: string;
@@ -25,7 +27,7 @@ function DeleteEmployee(deleteEmployeeProps: DeleteEmployeeProps) {
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const isDropDownOpen = Boolean(anchorEl);
-  const { mutate, isSuccess } = useDeleteEmployee();
+  const { mutate, isSuccess, error, isError } = useDeleteEmployee();
   const handleDeleteEmployee = () => {
     mutate(deleteEmployeeProps.employeeId, {
       onSuccess: () => {
@@ -36,6 +38,17 @@ function DeleteEmployee(deleteEmployeeProps: DeleteEmployeeProps) {
         setShowSnackbar(true);
       },
     });
+  };
+
+  const getDeleteErrorMessage = (error: string) => {
+    switch (error) {
+      case HttpErrors.BadRequest:
+        return "Employee doesn't exist";
+      case HttpErrors.Network:
+        return 'Cannot connect to server';
+      default:
+        return 'Cannot delete employee';
+    }
   };
 
   return (
@@ -99,7 +112,9 @@ function DeleteEmployee(deleteEmployeeProps: DeleteEmployeeProps) {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         status={isSuccess ? 'success' : 'error'}
-        message={isSuccess ? 'Employee deleted' : 'Error deleting employee'}
+        message={
+          isSuccess ? 'Employee deleted' : isError ? getDeleteErrorMessage((error as AxiosError).code ?? '') : ''
+        }
       />
     </>
   );

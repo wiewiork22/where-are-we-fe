@@ -14,6 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/routes.ts';
 import { Navigate } from 'react-router';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
+import CustomSnackbar from '../../components/snackbars/CustomSnackbar.tsx';
+import { AxiosError } from 'axios';
+import HttpErrors from '../../utils/HttpErrors.ts';
 
 const TextFieldInputProps = {
   style: { borderRadius: 8 },
@@ -23,8 +26,9 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
-  const { mutate: loginEmployee } = useEmployeeLogin();
+  const { mutate: loginEmployee, isError, error } = useEmployeeLogin();
 
   const navigate = useNavigate();
   const auth = useAuth();
@@ -72,7 +76,9 @@ function LoginPage() {
               console.log('Email is undefined');
             }
           },
-          onError: () => {},
+          onError: () => {
+            setShowSnackbar(true);
+          },
           onSettled: () => {},
         }
       );
@@ -81,6 +87,17 @@ function LoginPage() {
 
   const onSignInWithOrganizationButtonClicked = () => {
     //TODO
+  };
+
+  const getLoginErrorMessage = (error: string) => {
+    switch (error) {
+      case HttpErrors.BadRequest:
+        return 'Invalid email or password';
+      case HttpErrors.Network:
+        return 'Cannot connect to server';
+      default:
+        return 'Cannot log user in';
+    }
   };
 
   return (
@@ -210,6 +227,14 @@ function LoginPage() {
           <CircularProgress color="primary" size={80} thickness={5} />
         </div>
       </Modal>
+      <CustomSnackbar
+        open={showSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setShowSnackbar(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        status={'error'}
+        message={isError ? getLoginErrorMessage((error as AxiosError).code ?? '') : ''}
+      />
     </>
   );
 }

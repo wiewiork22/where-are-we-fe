@@ -2,6 +2,8 @@ import { useState } from 'react';
 import ModalAddEmployee from '../../../../components/AddEmployee/ModalAddEmployee.tsx';
 import CustomSnackbar from '../../../../components/snackbars/CustomSnackbar.tsx';
 import { useAddNewEmployee } from '../../../../utils/api.ts';
+import HttpErrors from '../../../../utils/HttpErrors.ts';
+import { AxiosError } from 'axios';
 
 type AddEmployeeProps = {
   isModalOpen: boolean;
@@ -12,7 +14,18 @@ type AddEmployeeProps = {
 function AddEmployee(props: AddEmployeeProps) {
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  const { mutate: mutateAddEmployee, isSuccess } = useAddNewEmployee();
+  const { mutate: mutateAddEmployee, isSuccess, isError, error } = useAddNewEmployee();
+
+  const getAddErrorMessage = (error: string) => {
+    switch (error) {
+      case HttpErrors.BadRequest:
+        return 'Employee with that email already exists';
+      case HttpErrors.Network:
+        return 'Cannot connect to server';
+      default:
+        return 'Cannot add employee';
+    }
+  };
 
   return (
     <div>
@@ -29,7 +42,7 @@ function AddEmployee(props: AddEmployeeProps) {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         status={isSuccess ? 'success' : 'error'}
-        message={isSuccess ? 'Employee added' : 'Error adding employee'}
+        message={isSuccess ? 'Employee added' : isError ? getAddErrorMessage((error as AxiosError).code ?? '') : ''}
       />
     </div>
   );

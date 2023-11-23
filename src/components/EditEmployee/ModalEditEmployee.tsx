@@ -39,8 +39,7 @@ function ModalEditEmployee({
   });
   const [employeeAddressData, setEmployeeAddressData] = useState(employee.address);
   const [fullNameError, setFullNameError] = useState('');
-  const [isCorrect , setIsCorrect] = useState(true);
-
+  const [isCorrect, setIsCorrect] = useState(true);
 
   useEffect(() => {
     if (fullNameRegex.test(employeeData.fullName)) {
@@ -49,8 +48,7 @@ function ModalEditEmployee({
   }, [employeeData.fullName]);
 
   useEffect(() => {
-    setIsCorrect(isFilled&&(fullNameError===''));
-
+    setIsCorrect(isFilled && fullNameError === '');
   }, [employeeData, employeeAddressData]);
 
   const isFilled: boolean =
@@ -137,15 +135,13 @@ function ModalEditEmployee({
     });
   };
 
-  const handleFullNameBlur=()=>{
-
+  const handleFullNameBlur = () => {
     if (!fullNameRegex.test(employeeData.fullName)) {
       setFullNameError('Enter name and surname');
     } else {
       setFullNameError('');
     }
-  }
-
+  };
 
   useEffect(() => {
     setValue(employeeAddressData.street);
