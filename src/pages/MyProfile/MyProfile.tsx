@@ -10,6 +10,7 @@ import { useEditEmployee, useGetEmployeeById } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import CustomSnackbar from '../../components/snackbars/CustomSnackbar.tsx';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
+import { useAuth } from '../../components/auth/AuthContext.tsx';
 import { fullNameRegex } from '../../utils/Regex';
 import HttpErrors from '../../utils/HttpErrors.ts';
 import { AxiosError } from 'axios';
@@ -38,6 +39,7 @@ function MyProfile() {
   const [employeeData, setEmployeeData] = useState<Employee>(emptyEmployee);
   const [fullNameError, setFullNameError] = useState('');
   const [isCorrect, setIsCorrect] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     if (fullNameRegex.test(employeeData.fullName)) {
@@ -53,9 +55,11 @@ function MyProfile() {
     setIsCorrect(isFilled && fullNameError === '');
   }, [employeeData, fullNameError, isFilled]);
 
-  const decodedToken = jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload;
+  const decodedToken = auth?.isLoggedIn
+    ? (jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload)
+    : undefined;
 
-  const { data, isLoading } = useGetEmployeeById(decodedToken.id);
+  const { data, isLoading } = useGetEmployeeById(decodedToken?.id ?? '');
   const { mutate: mutateEditEmployee, isSuccess, isError, error } = useEditEmployee();
 
   useEffect(() => {

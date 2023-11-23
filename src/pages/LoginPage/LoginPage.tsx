@@ -10,7 +10,7 @@ import { StyledButtonRadius100 } from '../../components/buttons/CustomButton.ts'
 import { useEmployeeLogin } from '../../utils/api.ts';
 import { useAuth } from '../../components/auth/AuthContext.tsx';
 import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/routes.ts';
 import { Navigate } from 'react-router';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
@@ -32,9 +32,14 @@ function LoginPage() {
 
   const navigate = useNavigate();
   const auth = useAuth();
+  const location = useLocation();
 
-  const navigateToHomePage = () => {
-    navigate(ROUTES.HOME);
+  const navigateBackOrHomePage = () => {
+    if (location.state) {
+      navigate(location.state);
+    } else {
+      navigate(ROUTES.HOME);
+    }
   };
 
   const onEmailChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +63,7 @@ function LoginPage() {
     if (email === 'ADMIN' && password === 'ADMIN') {
       localStorage.setItem('token', 'token');
       auth?.logIn('ADMIN', ['ADMIN']);
-      navigateToHomePage();
+      navigateBackOrHomePage();
     } else {
       loginEmployee(
         { email: email, password: password },
@@ -71,7 +76,7 @@ function LoginPage() {
             const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
             if (typeof sub === 'string') {
               auth?.logIn(sub, roleArray);
-              navigateToHomePage();
+              navigateBackOrHomePage();
             } else {
               console.log('Email is undefined');
             }
@@ -103,7 +108,11 @@ function LoginPage() {
   return (
     <>
       {auth?.isLoggedIn ? (
-        <Navigate to={ROUTES.HOME} />
+        location.state ? (
+          <Navigate to={location.state} />
+        ) : (
+          <Navigate to={ROUTES.HOME} />
+        )
       ) : (
         <Box sx={{ width: '100vw', height: '100vh', backgroundColor: 'background.default', overflow: 'hidden' }}>
           <video

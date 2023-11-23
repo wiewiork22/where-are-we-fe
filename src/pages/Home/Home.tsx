@@ -46,9 +46,11 @@ function Home() {
     axiosConfig;
   }, []);
 
-  const firstName = data
-    ?.find((x) => x.id === (jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload).id)
-    ?.fullName.split(' ')[0];
+  const firstName = auth?.isLoggedIn
+    ? data
+        ?.find((x) => x.id === (jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload).id)
+        ?.fullName.split(' ')[0]
+    : '';
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: apiKey,

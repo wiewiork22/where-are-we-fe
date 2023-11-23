@@ -3,8 +3,11 @@ import { Box } from '@mui/material';
 import LoginPage from '../LoginPage/LoginPage.tsx';
 import { ROUTES } from '../../routes/routes.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ProtectedRoutes from '../../components/ProtectedRoutes/ProtectedRoutes.tsx';
 import { ColorModeProvider } from '../../components/ColorModeContex/ColorModeContex.tsx';
+import ProtectedRoute from '../../components/ProtectedRoutes/ProtectedRoute.tsx';
+import Home from '../Home/Home.tsx';
+import MyProfile from '../MyProfile/MyProfile.tsx';
+import PageNotFound from '../PageNotFound/PageNotFound.tsx';
 
 const queryClient = new QueryClient();
 
@@ -24,8 +27,12 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path={ROUTES.LOG_IN} element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path={ROUTES.HOME} element={<Home />} />
+                <Route path={ROUTES.MY_PROFILE} element={<MyProfile />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
             </Routes>
-            <ProtectedRoutes />
           </BrowserRouter>
         </Box>
       </QueryClientProvider>
