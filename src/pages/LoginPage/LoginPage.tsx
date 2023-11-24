@@ -70,12 +70,13 @@ function LoginPage() {
           const roleArray = authorities.map((authority: { authority: string }) => authority.authority);
           if (typeof sub === 'string') {
             auth?.logIn(sub, roleArray);
-            navigateToHomePage();
+            navigateBackOrHomePage();
           } else {
             console.log('Email is undefined');
           }
         },
         onError: () => {
+          setShowSnackbar(true);
         },
         onSettled: () => {
         },
