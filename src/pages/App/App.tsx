@@ -8,10 +8,20 @@ import ProtectedRoute from '../../components/ProtectedRoutes/ProtectedRoute.tsx'
 import Home from '../Home/Home.tsx';
 import MyProfile from '../MyProfile/MyProfile.tsx';
 import PageNotFound from '../PageNotFound/PageNotFound.tsx';
+import { useJsApiLoader } from '@react-google-maps/api';
+import { Library } from '@googlemaps/js-api-loader';
 
 const queryClient = new QueryClient();
 
+const apiKey = import.meta.env.VITE_MAP_API_KEY;
+const googleMapsLibraries: Library[] = ['places', 'marker', 'core'];
+
 function App() {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: apiKey,
+    libraries: googleMapsLibraries,
+  });
+
   return (
     <ColorModeProvider>
       <QueryClientProvider client={queryClient}>
@@ -28,8 +38,8 @@ function App() {
             <Routes>
               <Route path={ROUTES.LOG_IN} element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
-                <Route path={ROUTES.HOME} element={<Home />} />
-                <Route path={ROUTES.MY_PROFILE} element={<MyProfile />} />
+                <Route path={ROUTES.HOME} element={<Home isLoaded={isLoaded} />} />
+                <Route path={ROUTES.MY_PROFILE} element={<MyProfile isLoaded={isLoaded} />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Routes>

@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-     if (token) {
+    if (token) {
       const decodedToken = jwtDecode(token) as CustomJwtPayload;
       const sub = decodedToken.sub;
       const authorities = decodedToken.authorities;

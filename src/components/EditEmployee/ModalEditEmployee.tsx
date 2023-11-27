@@ -263,6 +263,7 @@ function ModalEditEmployee({
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1 }}>
               <TextField
+                disabled
                 fullWidth
                 value={employeeAddressData.country}
                 label="Country"
@@ -271,6 +272,7 @@ function ModalEditEmployee({
                 onChange={(e) => handleAddressChangeValue('country', e.target.value)}
               />
               <TextField
+                disabled
                 fullWidth
                 value={employeeAddressData.city}
                 label="City"
@@ -282,6 +284,7 @@ function ModalEditEmployee({
 
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
               <TextField
+                disabled
                 value={employeeAddressData.state}
                 fullWidth
                 label="State / Province"
@@ -290,6 +293,7 @@ function ModalEditEmployee({
                 onChange={(e) => handleAddressChangeValue('state', e.target.value)}
               />
               <TextField
+                disabled
                 value={employeeAddressData.postCode}
                 fullWidth
                 label="Post Code"

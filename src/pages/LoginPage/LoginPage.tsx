@@ -78,9 +78,8 @@ function LoginPage() {
         onError: () => {
           setShowSnackbar(true);
         },
-        onSettled: () => {
-        },
-      },
+        onSettled: () => {},
+      }
     );
   };
 
@@ -113,7 +112,7 @@ function LoginPage() {
             autoPlay
             loop
             muted
-            src='/loginVideo.mp4'
+            src="/loginVideo.mp4"
             style={{
               objectFit: 'cover',
               height: '100%',
@@ -130,13 +129,13 @@ function LoginPage() {
               color: 'white',
             }}
           >
-            <Typography variant='h2' gutterBottom fontFamily='DejaVu Sans' fontWeight='bold'>
+            <Typography variant="h2" gutterBottom fontFamily="DejaVu Sans" fontWeight="bold">
               Welcome back!
             </Typography>
-            <Typography variant='h4' fontFamily='DejaVu Sans'>
+            <Typography variant="h4" fontFamily="DejaVu Sans">
               Where do you want to go today?
             </Typography>
-            <Typography variant='h4' fontFamily='DejaVu Sans'>
+            <Typography variant="h4" fontFamily="DejaVu Sans">
               Your colleagues are waiting for you!
             </Typography>
           </Box>
@@ -154,24 +153,24 @@ function LoginPage() {
             }}
           >
             <Stack sx={{ justifyContent: 'center', height: '100%', p: 2 }} spacing={2}>
-              <Typography color='primary' variant='h4' sx={{ textAlign: 'center', fontSize: '30px' }}>
+              <Typography color="primary" variant="h4" sx={{ textAlign: 'center', fontSize: '30px' }}>
                 Welcome to Devbridge Poland
               </Typography>
 
               <TextField
-                label='Email address'
-                variant='outlined'
+                label="Email address"
+                variant="outlined"
                 fullWidth
-                placeholder='e.g., name@cognizant.com'
-                type='email'
+                placeholder="e.g., name@cognizant.com"
+                type="email"
                 value={email}
                 onChange={onEmailChanged}
                 InputProps={TextFieldInputProps}
               />
 
               <TextField
-                label='Password'
-                variant='outlined'
+                label="Password"
+                variant="outlined"
                 fullWidth
                 type={isPasswordShown ? 'text' : 'password'}
                 value={password}
@@ -180,8 +179,8 @@ function LoginPage() {
                   ...TextFieldInputProps,
                   autoComplete: 'off',
                   endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton onClick={onTogglePasswordButtonClicked} edge='end'>
+                    <InputAdornment position="end">
+                      <IconButton onClick={onTogglePasswordButtonClicked} edge="end">
                         {isPasswordShown ? <VisibilityIcon /> : <VisibilityOffIcon />}
                       </IconButton>
                     </InputAdornment>
@@ -192,20 +191,20 @@ function LoginPage() {
               <Box sx={{ display: 'inline-block' }}>
                 <StyledButtonRadius100
                   sx={{ textDecoration: 'underline', color: 'primary' }}
-                  variant='text'
+                  variant="text"
                   onClick={onForgotPasswordButtonClicked}
                 >
                   Forgot password?
                 </StyledButtonRadius100>
               </Box>
 
-              <StyledButtonRadius100 variant='contained' onClick={onSignInButtonClicked}>
+              <StyledButtonRadius100 variant="contained" onClick={onSignInButtonClicked}>
                 Sign in
               </StyledButtonRadius100>
 
               <SignInSeparator />
 
-              <StyledButtonRadius100 variant='contained' onClick={onSignInWithOrganizationButtonClicked}>
+              <StyledButtonRadius100 variant="contained" onClick={onSignInWithOrganizationButtonClicked}>
                 Sign in with Cognizant SSO
               </StyledButtonRadius100>
             </Stack>
@@ -227,7 +226,7 @@ function LoginPage() {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <CircularProgress color='primary' size={80} thickness={5} />
+          <CircularProgress color="primary" size={80} thickness={5} />
         </div>
       </Modal>
       <CustomSnackbar

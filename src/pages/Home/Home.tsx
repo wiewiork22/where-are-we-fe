@@ -11,13 +11,8 @@ import EmployeeTable from './components/EmployeeTable/EmployeeTable.tsx';
 import axiosConfig from '../../utils/axiosConfig.ts';
 import { useGetEmployees } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
-import { useJsApiLoader } from '@react-google-maps/api';
 import DesignConversationImage from '../../assets/conversation.svg';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
-import { Library } from '@googlemaps/js-api-loader';
-
-const apiKey = import.meta.env.VITE_MAP_API_KEY;
-const googleMapsLibraries: Library[] = ['places', 'marker', 'core'];
 
 axiosConfig;
 
@@ -29,7 +24,11 @@ const ButtonStyle = {
   mb: 3,
 };
 
-function Home() {
+type HomePageProps = {
+  isLoaded: boolean;
+};
+
+function Home(props: HomePageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const auth = useAuth();
   const isAdmin = auth?.userRoles.includes('ADMIN');
@@ -51,11 +50,6 @@ function Home() {
         ?.find((x) => x.id === (jwtDecode(localStorage.getItem('token') ?? '') as CustomJwtPayload).id)
         ?.fullName.split(' ')[0]
     : '';
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: apiKey,
-    libraries: googleMapsLibraries,
-  });
 
   const handleModalOpenClick = () => {
     setIsModalOpen(true);
@@ -84,7 +78,7 @@ function Home() {
       </Box>
 
       <Card variant="outlined" sx={{ marginBottom: '50px' }}>
-        {isSuccess && isLoaded && EmployeeMap(filteredEmployees)}
+        {isSuccess && props.isLoaded && EmployeeMap(filteredEmployees)}
       </Card>
       {isAdmin && (
         <Box>
@@ -92,15 +86,17 @@ function Home() {
             variant="contained"
             sx={ButtonStyle}
             onClick={handleModalOpenClick}
-            disabled={!isLoaded}
-            startIcon={isLoaded && <AddIcon />}
+            disabled={!props.isLoaded}
+            startIcon={props.isLoaded && <AddIcon />}
           >
-            {isLoaded ? 'Add employee' : 'Loading...'}
+            {props.isLoaded ? 'Add employee' : 'Loading...'}
           </StyledButtonRadius100>
-          {isLoaded && <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refreshData={refetch} />}
+          {props.isLoaded && (
+            <AddEmployee isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refreshData={refetch} />
+          )}
         </Box>
       )}
-      {isSuccess && isLoaded && <EmployeeTable employees={filteredEmployees} refreshData={refetch} />}
+      {isSuccess && props.isLoaded && <EmployeeTable employees={filteredEmployees} refreshData={refetch} />}
     </>
   );
 }

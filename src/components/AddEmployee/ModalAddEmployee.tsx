@@ -33,8 +33,6 @@ const MenuProps = {
 };
 const inputFieldVariant = 'outlined';
 
-
-
 function ModalAddEmployee(props: ModalAddEmployeeProps) {
   const [employeeData, setEmployeeData] = useState({
     fullName: '',
@@ -54,7 +52,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
   });
   const [emailError, setEmailError] = useState('');
   const [fullNameError, setFullNameError] = useState('');
-  const [isCorrect , setIsCorrect] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   useEffect(() => {
     if (emailRegex.test(employeeData.email)) {
@@ -68,8 +66,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     }
   }, [employeeData.fullName]);
   useEffect(() => {
-    setIsCorrect(isFilled&&(emailError==='')&&(fullNameError===''));
-
+    setIsCorrect(isFilled && emailError === '' && fullNameError === '');
   }, [employeeData, employeeAddressData]);
 
   const isFilled: boolean =
@@ -86,7 +83,6 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
   const handleAddressChangeValue = (key: string, value: string) => {
     setEmployeeAddressData((data) => ({ ...data, [key]: value }));
   };
-
 
   const handleAddNewEmployeeClick = () => {
     const newEmployee: EmployeeForm = { ...employeeData, address: { ...employeeAddressData } };
@@ -125,24 +121,21 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
     },
   });
 
-  const handleFullNameBlur=()=>{
-
+  const handleFullNameBlur = () => {
     if (!fullNameRegex.test(employeeData.fullName)) {
       setFullNameError('Enter name and surname');
     } else {
       setFullNameError('');
     }
-  }
-
+  };
 
   const handleEmailBlur = () => {
-
     if (!emailRegex.test(employeeData.email)) {
       setEmailError('Invalid email format');
     } else {
       setEmailError('');
     }
-  }
+  };
 
   const handleSelect = async (address: string) => {
     clearSuggestions();
@@ -313,6 +306,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
 
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <TextField
+                  disabled
                   fullWidth
                   sx={{ mb: 1, mr: 1, mt: 1 }}
                   value={employeeAddressData.country}
@@ -322,6 +316,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                 />
 
                 <TextField
+                  disabled
                   fullWidth
                   sx={{ mb: 1, mt: 1 }}
                   value={employeeAddressData.city}
@@ -333,6 +328,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
 
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <TextField
+                  disabled
                   value={employeeAddressData.state}
                   fullWidth
                   label="State / Province"
@@ -341,6 +337,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                   onChange={(e) => handleAddressChangeValue('state', e.target.value)}
                 />
                 <TextField
+                  disabled
                   value={employeeAddressData.postCode}
                   fullWidth
                   label="Post Code"
@@ -348,7 +345,12 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
                   onChange={(e) => handleAddressChangeValue('postCode', e.target.value)}
                 />
               </Box>
-              <Button variant="contained" disabled={!isCorrect} sx={{ p: 2, mt: 1 }} onClick={handleAddNewEmployeeClick}>
+              <Button
+                variant="contained"
+                disabled={!isCorrect}
+                sx={{ p: 2, mt: 1 }}
+                onClick={handleAddNewEmployeeClick}
+              >
                 Add Employee
               </Button>
             </Box>
