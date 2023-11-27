@@ -10,6 +10,7 @@ import MyProfile from '../MyProfile/MyProfile.tsx';
 import PageNotFound from '../PageNotFound/PageNotFound.tsx';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
+import UserProfile from '../UserProfile/UserProfile.tsx';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path={ROUTES.HOME} element={<Home isLoaded={isLoaded} />} />
                 <Route path={ROUTES.MY_PROFILE} element={<MyProfile isLoaded={isLoaded} />} />
+                <Route path={ROUTES.EMPLOYEE_PROFILE} element={<UserProfile />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Routes>

@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import DeleteEmployee from '../DeleteEmployee.tsx';
 import EditEmployee from './EditEmployee.tsx';
 import { motion } from 'framer-motion';
+import SeeProfile from './SeeProfile.tsx';
 
 const sharedStyles = {
   field: {
@@ -39,7 +40,9 @@ function EmployeeTableRow({ employee, refreshData }: { employee: Employee; refre
       layout
     >
       <TableCell>
-        <StyledFullName style={{ color: primaryColor }}>{employee.fullName}</StyledFullName> <br />
+        <StyledFullName style={{ color: primaryColor }}>
+          <SeeProfile employee={employee} />
+        </StyledFullName>
         <StyledField>{employee.position}</StyledField>
       </TableCell>
       <StyledFieldTableCell>{employee.department}</StyledFieldTableCell>
