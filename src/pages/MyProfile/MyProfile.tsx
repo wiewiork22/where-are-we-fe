@@ -16,6 +16,7 @@ import HttpErrors from '../../utils/HttpErrors.ts';
 import { AxiosError } from 'axios';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import MenuItem from '@mui/material/MenuItem';
+import ImageUploadComponent from '../../components/ImageUploadComponent/ImageUploadComponent.tsx';
 
 const inputFieldVariant = 'outlined';
 const emptyEmployee: Employee = {
@@ -177,8 +178,7 @@ function MyProfile(props: MyProfilePageProps) {
       ) : (
         <Box sx={{ display: 'flex', pl: 3, pb: 3 }}>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 1, pt: 1 }}>
-            <Typography color="text.primary">Photo</Typography>
-            <img src="src/images/logo.png" alt="logo" style={{ maxWidth: '180px' }} />
+            <ImageUploadComponent />
           </Box>
           <Box
             sx={{
@@ -190,7 +190,7 @@ function MyProfile(props: MyProfilePageProps) {
               pr: 4,
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1 }}>
               <TextField
                 id="full-name"
                 label="Full name"

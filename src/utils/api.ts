@@ -59,3 +59,11 @@ const editEmployee = async (employee: Employee) => {
   const { id, ...data } = employee;
   return await axios.put<EmployeeForm>(`/api/employees/${id}`, data);
 };
+
+export const useUploadEmployeeImage = () => {
+  return useMutation(uploadEmployeeImage);
+};
+
+const uploadEmployeeImage = async (imageData: FormData) => {
+  return await axios.post(`/api/image/upload`, imageData);
+};
