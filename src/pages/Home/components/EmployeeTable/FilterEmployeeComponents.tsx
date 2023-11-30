@@ -17,17 +17,19 @@ function FilterEmployeeComponents({ employees, onFiltered }: Props) {
 
   const allCities = useMemo(() => {
     const cities = employees.map((employee) => employee.address.city);
-    return Array.of(...new Set(cities)).sort();
+    return Array.of(...new Set(cities)).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
   }, [employees]);
 
   const allDepartments = useMemo(() => {
     const departments = employees.map((employee) => employee.department);
-    return Array.of(...new Set(departments)).sort();
+    return Array.of(...new Set(departments)).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
   }, [employees]);
 
   const allSquads = useMemo(() => {
     const squads = employees.map((employee) => employee.squad ?? NO_SQUAD);
-    const uniqueSquads = Array.of(...new Set(squads)).sort();
+    const uniqueSquads = Array.of(...new Set(squads)).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: 'base' })
+    );
 
     if (uniqueSquads.includes(NO_SQUAD)) {
       const noSquadIndex = uniqueSquads.indexOf(NO_SQUAD);
