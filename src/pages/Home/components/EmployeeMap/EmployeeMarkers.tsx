@@ -3,8 +3,8 @@ import { Cluster, MarkerClusterer } from '@googlemaps/markerclusterer';
 import EmployeeMarkerContent from './EmployeeMarkerContent.tsx';
 import Marker from './Marker.tsx';
 import EmployeeListPopup from './EmployeeListPopup.tsx';
-import { useRef } from 'react';
-import ReactDOM, { createRoot } from 'react-dom/client';
+import { useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 
 type Props = {
   map: google.maps.Map;
@@ -12,7 +12,26 @@ type Props = {
 };
 
 function EmployeeMarkers({ map, employees }: Props) {
+  const cluster = useRef(
+    new MarkerClusterer({
+      map: map,
+      markers: [],
+    })
+  );
   const markerToEmployeeMap = new Map<google.maps.marker.AdvancedMarkerElement, Employee>();
+  const advancedMarkersMap = useRef<Map<string, google.maps.marker.AdvancedMarkerElement>>(
+    new Map<string, google.maps.marker.AdvancedMarkerElement>()
+  );
+  const onMarkerRemoved = (marker: google.maps.marker.AdvancedMarkerElement) => {
+    marker.map = null;
+    markerToEmployeeMap.delete(marker);
+    cluster.current.removeMarker(marker);
+  };
+  advancedMarkersMap.current.forEach((marker) => {
+    onMarkerRemoved(marker);
+  });
+  advancedMarkersMap.current.clear();
+
   const lastEmployeeListPopupInfoWindow = useRef<google.maps.InfoWindow>();
 
   const onClusterClick = (event: google.maps.MapMouseEvent, cluster: Cluster, map: google.maps.Map) => {
@@ -23,9 +42,7 @@ function EmployeeMarkers({ map, employees }: Props) {
       .filter((employee): employee is Employee => employee !== undefined);
 
     const container = document.createElement('div');
-    createRoot(container);
-
-    ReactDOM.hydrateRoot(container, EmployeeListPopup(employees));
+    createRoot(container).render(EmployeeListPopup(employees));
 
     const infoWindow = new google.maps.InfoWindow({ content: container });
 
@@ -38,13 +55,11 @@ function EmployeeMarkers({ map, employees }: Props) {
     infoWindow.open({ map: map });
   };
 
-  const cluster = useRef(
-    new MarkerClusterer({
-      map: map,
-      markers: [],
-      onClusterClick: onClusterClick,
-    })
-  );
+  cluster.current.onClusterClick = onClusterClick;
+
+  useEffect(() => {
+    cluster.current.render();
+  }, [employees]);
 
   return (
     <>
@@ -56,9 +71,11 @@ function EmployeeMarkers({ map, employees }: Props) {
           markerTitle={employee.fullName}
           position={{ lat: employee.address.lat, lng: employee.address.lng }}
           onMarkerCreated={(marker) => {
+            advancedMarkersMap.current.set(employee.id, marker);
             markerToEmployeeMap.set(marker, employee);
             cluster.current.addMarker(marker);
           }}
+          onMarkerRemoved={onMarkerRemoved}
         >
           {EmployeeMarkerContent(employee)}
         </Marker>

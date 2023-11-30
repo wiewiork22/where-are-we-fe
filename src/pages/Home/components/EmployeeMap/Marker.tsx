@@ -9,6 +9,7 @@ type MarkerComponentProps = {
   children: ReactNode;
   markerTitle: string;
   onMarkerCreated: (marker: AdvancedMarkerElement) => void;
+  onMarkerRemoved: (marker: AdvancedMarkerElement) => void;
   id: string;
 };
 
@@ -34,18 +35,21 @@ function Marker(props: MarkerComponentProps) {
       return () => {
         if (markerRef.current) {
           markerRef.current.map = null;
+          props.onMarkerRemoved(markerRef.current);
         }
       };
     }
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     rootRef.current?.render(props.children);
     if (markerRef.current) {
       markerRef.current.position = props.position;
       markerRef.current.map = props.map;
+
+      props.onMarkerCreated(markerRef.current);
     }
-  }, [props.map, props.children]);
+  }, [props]);
 
   return <></>;
 }

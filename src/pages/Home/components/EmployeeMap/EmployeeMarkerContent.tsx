@@ -3,7 +3,6 @@ import { Employee } from '../../../../models/Employee.ts';
 import { Typography } from '@mui/material';
 
 const avatarStyle = {
-  margin: '20px',
   width: '40px',
   height: '40px',
   display: 'flex',
