@@ -60,7 +60,7 @@ function Home(props: HomePageProps) {
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <Box>
           <Typography variant="h2" color="primary" sx={{ marginRight: '20px' }}>
-            Hello, {firstName} 👋
+            Hello, {firstName}
           </Typography>
           <Typography paragraph color="text.primary">
             Discover, connect and communicate with your colleagues nearby.

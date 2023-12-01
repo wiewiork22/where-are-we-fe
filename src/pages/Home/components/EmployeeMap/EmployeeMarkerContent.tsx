@@ -1,6 +1,7 @@
 import Paper from '@mui/material/Paper';
 import { Employee } from '../../../../models/Employee.ts';
 import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 const avatarStyle = {
   width: '40px',
@@ -12,20 +13,29 @@ const avatarStyle = {
   fontWeight: 'bold',
 };
 
-const colorPairs = [
-  { backgroundColor: '#333333', textColor: '#FFFFFF' },
-  { backgroundColor: '#2C3E50', textColor: '#FFFFFF' },
-  { backgroundColor: '#34495E', textColor: '#FFFFFF' },
-  { backgroundColor: '#333333', textColor: '#FF5733' },
-  { backgroundColor: '#2C3E50', textColor: '#FF5733' },
-  { backgroundColor: '#34495E', textColor: '#FF5733' },
-  { backgroundColor: '#333333', textColor: '#45B39D' },
-  { backgroundColor: '#2C3E50', textColor: '#45B39D' },
-  { backgroundColor: '#34495E', textColor: '#45B39D' },
-  { backgroundColor: '#333333', textColor: '#007acc' },
-];
-
 function EmployeeMarkerContent(employee: Employee) {
+  const theme = useTheme();
+
+  const primaryColor = theme.palette.primary.main;
+  const secondaryColor = theme.palette.secondary.main;
+
+  const colorPairs = [
+    { backgroundColor: '#432d45', textColor: primaryColor },
+    { backgroundColor: '#432d45', textColor: secondaryColor },
+    { backgroundColor: '#310135', textColor: primaryColor },
+    { backgroundColor: '#310135', textColor: secondaryColor },
+    { backgroundColor: '#3d1f40', textColor: secondaryColor },
+    { backgroundColor: '#3d1f40', textColor: primaryColor },
+    { backgroundColor: '#330537', textColor: secondaryColor },
+    { backgroundColor: '#330537', textColor: primaryColor },
+    { backgroundColor: '#29152a', textColor: secondaryColor },
+    { backgroundColor: '#29152a', textColor: primaryColor },
+    { backgroundColor: '#522656', textColor: secondaryColor },
+    { backgroundColor: '#522656', textColor: primaryColor },
+    { backgroundColor: '#4c1750', textColor: secondaryColor },
+    { backgroundColor: '#4c1750', textColor: primaryColor },
+  ];
+
   const firstLettersOfFullName = employee.fullName
     .split(' ')
     .map((name) => name[0])

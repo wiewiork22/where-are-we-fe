@@ -25,7 +25,9 @@ function EmployeeMarkers({ map, employees }: Props) {
   const onMarkerRemoved = (marker: google.maps.marker.AdvancedMarkerElement) => {
     marker.map = null;
     markerToEmployeeMap.delete(marker);
-    cluster.current.removeMarker(marker);
+    if (cluster.current) {
+      cluster.current.removeMarker(marker);
+    }
   };
   advancedMarkersMap.current.forEach((marker) => {
     onMarkerRemoved(marker);
@@ -61,6 +63,16 @@ function EmployeeMarkers({ map, employees }: Props) {
     cluster.current.render();
   }, [employees]);
 
+  useEffect(() => {
+    cluster.current.setMap(map);
+    advancedMarkersMap.current.forEach((marker) => {
+      cluster.current.removeMarker(marker);
+      marker.map = map;
+      cluster.current.addMarker(marker);
+    });
+    cluster.current.render();
+  }, [map]);
+
   return (
     <>
       {employees.map((employee) => (
@@ -73,7 +85,9 @@ function EmployeeMarkers({ map, employees }: Props) {
           onMarkerCreated={(marker) => {
             advancedMarkersMap.current.set(employee.id, marker);
             markerToEmployeeMap.set(marker, employee);
-            cluster.current.addMarker(marker);
+            if (cluster.current) {
+              cluster.current.addMarker(marker);
+            }
           }}
           onMarkerRemoved={onMarkerRemoved}
         >
