@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, CircularProgress, Container, InputAdornment, Modal, Stack, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -108,19 +108,7 @@ function LoginPage() {
         )
       ) : (
         <Box sx={{ width: '100vw', height: '100vh', backgroundColor: 'background.default', overflow: 'hidden' }}>
-          <video
-            autoPlay
-            loop
-            muted
-            src="/loginVideo.mp4"
-            style={{
-              objectFit: 'cover',
-              height: '100%',
-              minWidth: 'calc( 100vw - 400px )',
-              zIndex: -1,
-              transform: 'scaleX(-1)',
-            }}
-          />
+          <LoginVideo />
           <Box
             sx={{
               position: 'absolute',
@@ -242,3 +230,29 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+const LoginVideo: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.7;
+    }
+  }, []);
+
+  return (
+    <video
+      autoPlay
+      loop
+      muted
+      ref={videoRef}
+      src="/loginVideo.mp4"
+      style={{
+        objectFit: 'cover',
+        height: '100%',
+        minWidth: 'calc(100vw - 400px)',
+        zIndex: -1,
+      }}
+    />
+  );
+};
