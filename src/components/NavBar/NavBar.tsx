@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -16,6 +16,7 @@ import { AnimatedText } from '../AnimatedText/AnimatedText.tsx';
 import { useAuth } from '../auth/AuthContext.tsx';
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch.tsx';
 import { useColorMode } from '../ColorModeContex/ColorModeContex.tsx';
+import { useGetEmployeeImage } from '../../utils/api.ts';
 
 type NavbarProps = {
   open: boolean;
@@ -64,6 +65,8 @@ export default function NavBar(props: NavbarProps) {
 
   const { toggleColorMode, mode } = useColorMode();
 
+  const { data } = useGetEmployeeImage(auth!.userEmail!);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed" sx={{ backgroundColor: 'background.paper' }} open={props.open}>
@@ -107,7 +110,7 @@ export default function NavBar(props: NavbarProps) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Simon" />
+                <Avatar src={data} />
               </IconButton>
             </Tooltip>
 

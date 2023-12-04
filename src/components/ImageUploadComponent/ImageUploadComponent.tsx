@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { Button, CircularProgress, Grid, Typography } from '@mui/material';
-import { useUploadEmployeeImage } from '../../utils/api.ts';
+import { useGetEmployeeImage, useUploadEmployeeImage } from '../../utils/api.ts';
 import { jwtDecode } from 'jwt-decode';
 import CustomJwtPayload from '../../utils/CustomJwtPayload.ts';
 import { useAuth } from '../auth/AuthContext.tsx';
@@ -38,6 +38,8 @@ const ImageUploadComponent = () => {
     }
   };
 
+  const { data: employeeImageUrl } = useGetEmployeeImage(auth?.userEmail ? auth.userEmail : '');
+
   return (
     <>
       <Grid container justifyContent="center" alignItems="center">
@@ -56,9 +58,9 @@ const ImageUploadComponent = () => {
                 color="primary"
                 component="span"
               >
-                {selectedImage ? (
+                {selectedImage || employeeImageUrl ? (
                   <img
-                    src={URL.createObjectURL(selectedImage)}
+                    src={selectedImage ? URL.createObjectURL(selectedImage!) : employeeImageUrl}
                     alt="Selected"
                     style={{
                       width: '100%',

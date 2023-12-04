@@ -67,3 +67,21 @@ export const useUploadEmployeeImage = () => {
 const uploadEmployeeImage = async (imageData: FormData) => {
   return await axios.post(`/api/image/upload`, imageData);
 };
+
+export const useGetEmployeeImage = (employeeEmail: string) => {
+  return useQuery<string, Error>({
+    queryKey: ['employeeImage', employeeEmail],
+    queryFn: () => getEmployeeImage(employeeEmail),
+  });
+};
+
+export const getEmployeeImage = async (employeeEmail: string) => {
+  const response = await axios.get(`/api/image/download?employeeEmail=${employeeEmail}`, {
+    responseType: 'arraybuffer',
+  });
+
+  const base64String = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+  const imageDataUrl = `data:image/jpeg;base64,${base64String}`;
+
+  return imageDataUrl;
+};

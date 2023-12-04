@@ -1,10 +1,11 @@
-import { useGetEmployeeById } from '../../utils/api.ts';
+import { useGetEmployeeById, useGetEmployeeImage } from '../../utils/api.ts';
 import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { Divider, FormControl, LinearProgress, Stack } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import placeHolder from './images/user-profile-placeholder.jpg';
 
 function UserProfile() {
   const { userId } = useParams<string>();
@@ -22,6 +23,7 @@ function UserProfile() {
 
 function LoadedUserProfile({ userId }: { userId: string }) {
   const { data: employeeData, isLoading, isError } = useGetEmployeeById(userId);
+  const { data: employeeImageUrl } = useGetEmployeeImage(employeeData ? employeeData.email : '');
 
   if (isLoading) {
     return (
@@ -48,16 +50,27 @@ function LoadedUserProfile({ userId }: { userId: string }) {
       <Divider />
       <Grid container spacing={2} sx={{ pt: '20px' }}>
         <Grid item xs={3}>
-          <Typography variant="caption" color="text.primary">
-            Photo
-          </Typography>
-          <img
-            src="src/images/LogoCognizant.png"
-            alt="logo"
-            style={{
-              maxWidth: '100%',
-            }}
-          />
+          {employeeImageUrl ? (
+            <img
+              src={employeeImageUrl}
+              style={{
+                width: '100%',
+                height: '80%',
+                borderRadius: '8px',
+                objectFit: 'cover',
+              }}
+            />
+          ) : (
+            <img
+              src={placeHolder} // Replace with the path to your placeholder image
+              style={{
+                width: '100%',
+                height: '80%',
+                borderRadius: '8px',
+                objectFit: 'cover',
+              }}
+            />
+          )}
         </Grid>
         <Grid item xs={9}>
           <Stack spacing={2}>
