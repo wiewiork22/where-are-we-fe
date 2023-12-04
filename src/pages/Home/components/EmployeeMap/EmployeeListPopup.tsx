@@ -8,7 +8,7 @@ function EmployeeListItem({ style, index, data }: ListChildComponentProps<Employ
 
   return (
     <ListItem style={{ ...style, borderBottom: '1px solid #ccc', padding: '8px' }} key={employee.id}>
-      <Typography>{`${index + 1}. ${employee.fullName}`}</Typography>
+      <Typography color="black">{`${index + 1}. ${employee.fullName}`}</Typography>
     </ListItem>
   );
 }
