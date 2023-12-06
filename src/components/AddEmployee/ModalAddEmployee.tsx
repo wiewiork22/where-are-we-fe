@@ -191,7 +191,7 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 1, pt: 1 }}>
               <Typography color="text.primary">Photo</Typography>
               <img
-                src={placeHolder} // Replace with the path to your placeholder image
+                src={placeHolder}
                 style={{
                   width: '100%',
                   height: '80%',
