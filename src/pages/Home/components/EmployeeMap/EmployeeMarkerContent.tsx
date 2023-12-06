@@ -20,20 +20,10 @@ function EmployeeMarkerContent(employee: Employee) {
   const secondaryColor = theme.palette.secondary.main;
 
   const colorPairs = [
-    { backgroundColor: '#432d45', textColor: primaryColor },
-    { backgroundColor: '#432d45', textColor: secondaryColor },
-    { backgroundColor: '#310135', textColor: primaryColor },
-    { backgroundColor: '#310135', textColor: secondaryColor },
-    { backgroundColor: '#3d1f40', textColor: secondaryColor },
-    { backgroundColor: '#3d1f40', textColor: primaryColor },
-    { backgroundColor: '#330537', textColor: secondaryColor },
-    { backgroundColor: '#330537', textColor: primaryColor },
-    { backgroundColor: '#29152a', textColor: secondaryColor },
-    { backgroundColor: '#29152a', textColor: primaryColor },
-    { backgroundColor: '#522656', textColor: secondaryColor },
-    { backgroundColor: '#522656', textColor: primaryColor },
-    { backgroundColor: '#4c1750', textColor: secondaryColor },
-    { backgroundColor: '#4c1750', textColor: primaryColor },
+    { backgroundColor: primaryColor, textColor: 'white' },
+    { backgroundColor: secondaryColor, textColor: 'white' },
+    { backgroundColor: '#13346c', textColor: 'white' },
+    { backgroundColor: '#258890', textColor: 'white' },
   ];
 
   const firstLettersOfFullName = employee.fullName
