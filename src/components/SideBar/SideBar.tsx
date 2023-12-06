@@ -11,8 +11,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import GroupsIcon from '@mui/icons-material/Groups';
-import MapIcon from '@mui/icons-material/Map';
 import { CSSObject, styled, Theme, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import { ROUTES } from '../../routes/routes.ts';
@@ -25,8 +23,6 @@ type SidebarProps = {
 const pages = [
   { title: 'Home', link: ROUTES.HOME, icon: <HomeIcon /> },
   { title: 'My Profile', link: ROUTES.MY_PROFILE, icon: <AccountCircleIcon /> },
-  { title: 'Meetings', link: ROUTES.MEETINGS, icon: <GroupsIcon /> },
-  { title: 'Nearby', link: ROUTES.NEARBY, icon: <MapIcon /> },
 ];
 
 const drawerWidth = 200;
