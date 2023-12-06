@@ -14,6 +14,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { emailRegex, fullNameRegex } from '../../utils/Regex';
+import placeHolder from '../../pages/UserProfile/images/user-profile-placeholder.jpg';
 
 type ModalAddEmployeeProps = {
   modalIsOpen: boolean;
@@ -189,7 +190,15 @@ function ModalAddEmployee(props: ModalAddEmployeeProps) {
           <Box sx={{ display: 'flex', pl: 3, pb: 3 }}>
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 1, pt: 1 }}>
               <Typography color="text.primary">Photo</Typography>
-              <img src="src/images/logo.png" alt="logo" style={{ maxWidth: '180px' }} />
+              <img
+                src={placeHolder} // Replace with the path to your placeholder image
+                style={{
+                  width: '100%',
+                  height: '80%',
+                  borderRadius: '8px',
+                  objectFit: 'cover',
+                }}
+              />
               <Button fullWidth variant="contained" sx={{ p: 2, mt: 'auto' }} onClick={closeModal}>
                 Cancel
               </Button>

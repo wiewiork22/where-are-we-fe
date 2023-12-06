@@ -10,6 +10,8 @@ import customModalStyle from '../customModalStyle.ts';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import MenuItem from '@mui/material/MenuItem';
 import { fullNameRegex } from '../../utils/Regex';
+import { useGetEmployeeImage } from '../../utils/api.ts';
+import placeHolder from '../../pages/UserProfile/images/user-profile-placeholder.jpg';
 
 type ModalEditEmployeeProps = {
   modalIsOpen: boolean;
@@ -40,6 +42,7 @@ function ModalEditEmployee({
   const [employeeAddressData, setEmployeeAddressData] = useState(employee.address);
   const [fullNameError, setFullNameError] = useState('');
   const [isCorrect, setIsCorrect] = useState(true);
+  const { data: employeeImageUrl } = useGetEmployeeImage(employeeData ? employeeData.email : '');
 
   useEffect(() => {
     if (fullNameRegex.test(employeeData.fullName)) {
@@ -172,7 +175,27 @@ function ModalEditEmployee({
         <Box sx={{ display: 'flex', pl: 3, pb: 3 }}>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', m: 1, pt: 1 }}>
             <Typography color="text.primary">Photo</Typography>
-            <img src="src/images/logo.png" alt="logo" style={{ maxWidth: '180px' }} />
+            {employeeImageUrl ? (
+              <img
+                src={employeeImageUrl}
+                style={{
+                  width: '100%',
+                  height: '80%',
+                  borderRadius: '8px',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <img
+                src={placeHolder} // Replace with the path to your placeholder image
+                style={{
+                  width: '100%',
+                  height: '80%',
+                  borderRadius: '8px',
+                  objectFit: 'cover',
+                }}
+              />
+            )}
             <Button fullWidth variant="contained" sx={{ p: 2, mt: 'auto' }} onClick={closeModal}>
               Cancel
             </Button>
