@@ -50,7 +50,7 @@
     "typescript": "5.0.2",
     "vite": "4.4.5"
   },
-  "description": "[Application design](https://www.figma.com/file/CFbWn6rkYLR0SRNYO49Kad/Sourcery-Academy-Project%3A-Remote-Employees-Poland?type=design&node-id=4-104&mode=design)",
+  "description": "[Application design]",
   "main": "index.js",
   "author": "",
   "license": "ISC"

@@ -62,7 +62,7 @@ function LoadedUserProfile({ userId }: { userId: string }) {
             />
           ) : (
             <img
-              src={placeHolder} // Replace with the path to your placeholder image
+              src={placeHolder}
               style={{
                 width: '100%',
                 height: '80%',
