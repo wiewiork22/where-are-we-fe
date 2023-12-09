@@ -33,3 +33,7 @@ npm run build
 docker build -t <image name> .
 docker run -p 80:80 <image name>
 ```
+
+### Google Map IDs
+
+Generate Googel Maps API Key and MapID and place these values in .env
